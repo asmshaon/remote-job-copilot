@@ -1,0 +1,12 @@
+__pycache__/
+
+# who is using this checkout (one line: your slug). Each person keeps their own.
+.me
+
+# private contact details stay on each person's machine
+skillsets-and-contributions/*/others/address/*
+skillsets-and-contributions/*/others/contacts/*
+
+# personal Claude Code settings
+.claude/settings.local.json
+CLAUDE.local.md

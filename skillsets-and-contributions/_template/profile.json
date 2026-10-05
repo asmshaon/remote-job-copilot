@@ -1,0 +1,91 @@
+{
+  "_help": "Example values for a made-up person. Replace every value with your own (or say \"profile setup\" in Claude Code and it fills this in from your resume and accomplishments). Keys starting with _ are notes and are ignored.",
+
+  "slug": "jane-doe",
+  "full_name": "Jane Doe",
+  "preferred_name": "Jane Doe",
+  "first_name": "Jane",
+  "email": "jane.doe@example.com",
+  "linkedin": "https://linkedin.com/in/example",
+  "portfolio": "https://example.com",
+  "github": "https://github.com/example",
+  "headline": "Software Engineer",
+  "summary": "Software Engineer, Node.js/TypeScript backend, based in Portugal",
+  "home_country": "Portugal",
+  "city": "Lisbon",
+  "utc_offset": 0,
+  "timezone_label": "GMT+0 (Portugal)",
+  "years_experience": 5,
+  "experience_since": "2021-01",
+  "resume_file": "Jane_Doe.pdf",
+
+  "_target_roles": "Job titles to search for, most important first.",
+  "target_roles": ["Senior Backend Engineer", "Backend Engineer", "Node.js Developer", "Full Stack Engineer"],
+  "seniority": "skip staff/principal/lead-only posts asking for 10+ years",
+  "stack": {
+    "fit": "Main backend is Node.js/TypeScript (NestJS/Express), or the post clearly accepts it",
+    "skip": "Go/Java/Python/Ruby/PHP-only backends, mobile, data science, DevOps-only and frontend-only roles",
+    "terms": ["Node.js", "NestJS", "TypeScript", "Express", "PostgreSQL", "MongoDB", "Redis"]
+  },
+  "_domains": "The industries and problem spaces of your past projects. Searches and outreach are built from these.",
+  "domains": ["billing/subscriptions/payments", "SaaS", "e-commerce", "integrations/APIs"],
+
+  "pay": {
+    "currency": "USD",
+    "min_month": 2000,
+    "max_month": 7000,
+    "note": "Never below the minimum. Hourly = monthly / 160. Equity doesn't count toward the minimum."
+  },
+  "remote": "worldwide only: open to anywhere, or a country list that includes Portugal. EOR/contractor (Deel, Remote.com, Oyster) is fine",
+
+  "_company_countries": "Where a company you apply or email to may be based (lowercase). Leave it out to use the default list in me.py.",
+  "company_countries_note": "Europe (incl. UK), the USA, Australia, or a high-income Asian country.",
+  "company_countries": [
+    "united states", "usa", "us", "canada", "australia", "new zealand",
+    "united kingdom", "uk", "england", "scotland", "wales", "northern ireland", "ireland",
+    "germany", "france", "netherlands", "belgium", "luxembourg", "switzerland", "austria",
+    "denmark", "sweden", "norway", "finland", "iceland", "spain", "portugal", "italy",
+    "poland", "czech republic", "czechia", "estonia", "latvia", "lithuania",
+    "singapore", "japan", "south korea", "hong kong", "taiwan",
+    "united arab emirates", "uae", "qatar", "israel"
+  ],
+  "_outreach_countries": "Where a LinkedIn outreach person and their company may be (lowercase). Leave it out to use the default list in me.py.",
+  "outreach_countries_note": "the USA, UK, Europe, Canada, Australia or Singapore",
+  "outreach_countries": [
+    "united states", "usa", "us", "canada", "australia", "singapore",
+    "united kingdom", "uk", "england", "scotland", "wales", "northern ireland", "ireland",
+    "germany", "france", "netherlands", "belgium", "switzerland", "austria", "denmark",
+    "sweden", "norway", "finland", "spain", "portugal", "italy", "poland", "czechia", "estonia"
+  ],
+  "_blocked_countries": "Never targeted, not even for a job you pick yourself (lowercase).",
+  "blocked_countries": [],
+  "easy_time_zones": "Europe, the UK and the US East Coast (within 5 hours of Portugal)",
+
+  "linkedin_daily": {"company": 5, "client": 5, "hiring": 2},
+  "linkedin_weekly_cap": 90,
+  "product_outreach_daily_drafts": 15,
+
+  "_job_search": "Used by fetch_jobs.py and the job-apply skills. Words in title_* lists are regex pieces.",
+  "job_search": {
+    "stack_terms": ["node.js", "nodejs", "node js", "nestjs", "nest.js", "typescript", "express.js", "expressjs"],
+    "title_must": ["engineer", "developer", "programmer", "swe"],
+    "title_include": ["back[- ]?end", "full[- ]?stack", "node", "nest", "typescript", "software", "platform", "api", "founding", "product engineer"],
+    "title_strong": ["back[- ]?end", "full[- ]?stack"],
+    "title_exclude": ["security", "qa", "quality", "test", "support", "designer", "data", "machine learning",
+                      "devops", "sre", "mobile", "ios", "android", "frontend", "front[- ]end", "sales",
+                      "php", "ruby", "golang", "java", "python", "\\.net", "c#", "manager", "director", "head of", "intern"],
+    "queries": {
+      "himalayas": ["node.js", "nestjs", "typescript backend", "backend engineer", "full stack"],
+      "remotive": ["node", "typescript", "backend"],
+      "remoteok": ["node", "typescript", "backend"],
+      "jobicy": ["nodejs", "typescript", "backend"],
+      "wwr": ["remote-back-end-programming-jobs", "remote-full-stack-programming-jobs"]
+    },
+    "linkedin_queries": ["Senior Backend Engineer Node.js", "NestJS developer", "TypeScript backend payments"],
+    "post_role_words": ["backend engineer", "node.js developer", "nestjs", "typescript backend"],
+    "x_stack_query": "(node OR nodejs OR \"node.js\" OR nestjs OR typescript) (backend OR \"full stack\")",
+    "wellfound_roles": ["Backend Engineer", "Full-Stack Engineer"],
+    "wellfound_skills": ["Node.js", "TypeScript"],
+    "ats_query": "(\"node.js\" OR \"nestjs\" OR \"typescript\")"
+  }
+}

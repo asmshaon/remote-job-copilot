@@ -1,0 +1,40 @@
+# skillsets-and-contributions
+
+One folder per person. Everything the skills know about you comes from your folder, and nothing else.
+
+```
+skillsets-and-contributions/
+  _template/                   copy this to start (or say "profile setup" in Claude Code)
+  <your-slug>/                 e.g. jane-doe (lowercase, hyphens)
+    profile.json               who you are and your job-hunt settings: role, stack, home country, time zone,
+                               pay range, target countries, LinkedIn daily numbers, job-search words
+    profile-answers.md         saved answers for application forms (filled in as forms ask)
+    proof-map.md               your real work mapped to searches, outreach services and offers
+    contributions/             your career accomplishments (PDF or .md): projects, systems, real numbers
+    skills/my-skill-set.md     what you can honestly claim
+    resume/<Your_Name>.pdf     your current resume (file name = profile.json "resume_file")
+    resume/resume-base.json    the fixed parts of that resume, for the tailored resume builder
+    profile-picture/           your photo (profile.jpg), used only when a form asks
+    product-directories/       your list of startup and product directories (for product outreach)
+    others/address/address.txt your postal address   } never committed (.gitignore),
+    others/contacts/phone.txt  your phone number     } only read when a form asks
+```
+
+## Who am I on this machine
+
+Each person writes their slug into `.me` at the repo root (git-ignored):
+
+```bash
+python .claude/skills/job-apply-shared/scripts/me.py set jane-doe
+python .claude/skills/job-apply-shared/scripts/me.py check     # what is still missing
+```
+
+Your output then goes into your own folders: `apply/<slug>/`, `linkedin/<slug>/`, `product-outreach/<slug>/`
+and `upwork/<slug>/`.
+
+## Rules for a shared repo
+
+- Only edit your own folder and your own output folders. Never open, copy or change someone else's.
+- Your address and phone stay on your machine (git-ignored). Don't put them anywhere else.
+- Everything else in your folder is pushed to the shared repo and visible to every collaborator. Leave out
+  anything you don't want them to see.

@@ -1,0 +1,58 @@
+{
+  "_comment": "Fixed parts of the resume, copied from your resume PDF in this folder (made-up example values below). Only experience[].items, projects[].text and the skills items change per job. 'bullets' is the allowed [min, max] bullet count per job. 'projects' under a job lists the accomplishment projects that job may draw bullets from. Edit this file only when your real resume changes.",
+  "name": "JANE DOE",
+  "designation": "Software Engineer",
+  "contact": [
+    {"label": "Email:", "text": "jane.doe@example.com", "url": "mailto:jane.doe@example.com"},
+    {"label": "LinkedIn:", "text": "linkedin.com/in/example", "url": "https://linkedin.com/in/example"},
+    {"label": "Portfolio:", "text": "example.com", "url": "https://example.com"}
+  ],
+  "experience": [
+    {
+      "id": "acme",
+      "company": "Acme Billing",
+      "location": "Germany (Remote)",
+      "role": "Software Engineer (Remote) - NestJS, PostgreSQL, React",
+      "dates": "Mar 2024 - Present",
+      "projects": ["PayFlow"],
+      "bullets": [2, 4],
+      "items": [
+        {"text": "Build backend services for PayFlow, a subscription billing product used by 300+ small businesses."},
+        {"text": "Moved invoice generation to a queue, so month-end runs finish in minutes instead of hours."}
+      ]
+    },
+    {
+      "id": "shopco",
+      "company": "ShopCo",
+      "location": "Lisbon, Portugal",
+      "role": "Backend Developer - Node.js, MongoDB",
+      "dates": "Jan 2021 - Feb 2024",
+      "projects": ["Store API", "Order Sync"],
+      "bullets": [1, 3],
+      "items": [
+        {"label": "Store API:", "text": "Built the REST API behind 40+ online stores, with product, cart and checkout endpoints."},
+        {"label": "Order Sync:", "text": "Wrote the nightly sync that moves 20,000+ orders a day into the warehouse system."}
+      ]
+    }
+  ],
+  "projects": [
+    {"id": "payflow", "name": "PayFlow", "subtitle": "Subscription Billing App", "text": "Shipped a billing product with plans, trials, failed-payment retries and an admin dashboard for support teams."}
+  ],
+  "additional": [
+    {"name": "Open Source", "subtitle": "Maintainer", "dates": "2022 - Present", "text": "Maintain a small Node.js library for webhook signature checks, used in 50+ public projects."}
+  ],
+  "education": [
+    {"degree": "B.Sc. in Computer Science - ", "school": "Example University", "dates": "2016-2020"}
+  ],
+  "_skill_pool_comment": "Items a tailored resume may list under each fixed skills category. Every item must trace to your skill set, resume or accomplishments. Add an item only when you really have it.",
+  "skill_pool": {
+    "Languages:": ["JavaScript", "TypeScript", "SQL"],
+    "Frameworks:": ["NestJS", "Express.js", "React", "Jest"],
+    "Technologies:": ["Node.js", "PostgreSQL", "MongoDB", "Redis", "Docker", "AWS", "Git", "CI/CD", "Stripe", "Webhooks", "REST APIs"]
+  },
+  "skills": [
+    {"label": "Languages:", "text": "JavaScript, TypeScript"},
+    {"label": "Frameworks:", "text": "NestJS, Express.js, React"},
+    {"label": "Technologies:", "text": "Node.js, PostgreSQL, Redis, Docker, AWS, CI/CD"}
+  ]
+}

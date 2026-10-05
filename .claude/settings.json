@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(python .claude/skills/job-apply-shared/scripts/*)",
+      "Bash(python .claude/skills/custom-resume/scripts/*)",
+      "Bash(python .claude/skills/product-outreach/scripts/*)",
+      "Bash(python .claude/skills/upwork-profile/scripts/*)",
+      "Bash(python linkedin/scripts/ledger.py *)"
+    ]
+  }
+}

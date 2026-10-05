@@ -1,0 +1,55 @@
+One-time setup
+Install the Claude in Chrome extension. Search "Claude" in the Chrome Web Store or go to claude.ai/chrome. Sign in with the same Claude account you use here; it needs a paid plan.
+Log in to LinkedIn in that Chrome window and stay logged in.
+Update Claude Code from a terminal:
+
+claude update
+Start Claude Code with Chrome enabled. Open a terminal in VS Code (Ctrl+`) and run:
+
+cd <where you cloned this repo>
+claude --chrome
+If you're already inside a session, type /chrome to connect or check the status. That menu also has an option to turn Chrome on by default. If /chrome isn't available in the VS Code chat panel, use the terminal CLI.
+Allow linkedin.com when the extension asks for site permission.
+
+Set up your own folder (once per person, per machine)
+In the session, type:
+
+profile setup
+
+It creates skillsets-and-contributions/<your-slug>/, writes .me on this machine, and builds your profile.json, resume base and proof map from your files.
+
+Check the connection
+In the new session, type:
+
+Open linkedin.com in Chrome and tell me the name on my profile.
+
+If it reads your name back, it's connected.
+
+Run the automation
+Start with a small test so you can watch what it does:
+
+Run: LinkedIn company outreach.
+Run: LinkedIn client outreach.
+
+That runs the whole skill: status check of earlier requests, reject list, find targets, write notes, save the CSV, commit and push. Claude never clicks Connect or Send. You send every request yourself.
+
+
+linkedin job apply 20
+
+
+How to use it:
+
+You type	What launches
+job apply	All 8 source agents, then the resume builder
+job apply 10	Same, up to 10 jobs per source
+job apply exclude linkedin job, twitter	All except the LinkedIn Jobs and Twitter agents
+job apply only hn, yc	Only the HN and YC agents
+
+
+You type	What runs
+outreach	All 3 tracks at your profile.json numbers (template: company 5 + client 5 + hiring team 2 = 12)
+outreach 5	All 3, 5 each
+outreach except client	Company and hiring team only
+outreach exclude client, hiring team	Company only
+outreach only company, hiring	Just those two
+outreach 5 except client	Combined
