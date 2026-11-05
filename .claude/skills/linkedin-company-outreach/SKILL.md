@@ -179,7 +179,7 @@ Count `domain_match` across the send files and lean toward the one or two domain
 ### 3d. Keep a person only if all of these hold
 
 - **Role:** CEO, CTO, technical co-founder, founder. Skip VP/Head of Engineering, engineering managers and recruiters (they're covered by `linkedin hiring team outreach`), plus sales, investors and non-lead engineers.
-- **Company:** a startup of about **5–150 people** with a live product and **outside funding** (pre-seed to Series B, a YC or other accelerator batch, or known angels) raised in the **last 24 months**, shown by a public source. Under 5 people they rarely hire yet; over 150, hiring runs through recruiters. Skip bootstrapped side projects, agencies, outsourcing shops and large enterprises.
+- **Company:** a startup of about **5–150 people** with a live product and **outside funding** (pre-seed to Series B, a YC or other accelerator batch, or known angels) raised in the **last 24 months**, shown by a public source. Under 5 people they rarely hire yet; over 150, hiring runs through recruiters. Skip bootstrapped side projects, agencies, outsourcing shops and large enterprises. When their profile.json sets `company_size`, use its `min_employees` to `max_employees` range instead of 5–150, and when it sets `quality_bar`, the company must meet it too.
 - **Domain match:** the product fits at least one row in the query bank.
 - **Stack fit** (from the skill set and profile.json `stack`): their stack, or unknown. Skip it if the product is clearly built only in what `stack.skip` names, unless the domain match is very strong; say so in `why_target`.
 - **Location:** profile location in one of their `outreach_countries`, and the company based there too. Never a blocked country.

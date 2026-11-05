@@ -97,15 +97,21 @@ Run `$A drafts`. For each row, search Gmail **Sent** (read-only) for that subjec
 7. **Real company.** Skip staffing agencies reposting vague roles, scams (fees, Telegram/WhatsApp-only contact, free-email "big companies", empty accounts), and posts older than 30 days or marked filled.
 8. **Not applied in the last 6 months.** `$A check "<job url>" "<company>" "<title>" "<apply url>"` must print `new`. A job they applied to from **any** source is blocked for **6 months (180 days)**, matched by source job ID, company + title, or the external apply link, so reposts and cross-posts are caught. Withdrawn drafts don't block.
 
+Three more checks apply **only when their profile.json sets them** (people who leave them out get none of these):
+
+9. **Company size** (`company_size`): headcount between `min_employees` and `max_employees`, from the company's LinkedIn page, team page, YC or Wellfound profile, or the Himalayas employee count (note the source). Over the limit, or unknown after two sources: skip. Don't spend checks on the job feeds of companies known to be bigger.
+10. **Quality bar** (`quality_bar`): the company meets every point it lists, each with a source.
+11. **Realistic fit** (`realism`): count the post's must-haves with no proof in their files. More than `realism.max_hard_gaps`: skip. Also skip what `realism.note` rules out (e.g. years in a language they barely used, a manager-only or staff/principal role above their record, domain experience they lack). Name the one allowed gap honestly in the report and the application text.
+
 ### 1c. Pay: market analysis
 
 The user's range is profile.json `pay`: **`min_month` - `max_month` per month** in `currency` (x12 per year), plus anything in `pay.note`. For each kept job:
 1. **Posted pay** (source listing, company page, pay-transparency ranges): convert to their currency per month. Keep it if the top of the range is at least `pay.min_month`.
 2. **No posted pay:** estimate from market data for that role, level and company: Glassdoor, levels.fyi, Himalayas salary data, Wellfound, RemoteOK / We Work Remotely salary listings, the company's other posted roles, and its funding stage and size. Keep it only when the estimate for a remote hire clearly reaches `pay.min_month`. If the company publishes a location-based pay formula, use the figure for their `home_country`.
 3. Record `pay_range` (as posted or estimated, with the source) and `pay_usd_month` (midpoint per month; the column name is historical, use their currency if it isn't USD), and put a short **Pay** section in `job-description.md`.
-4. When a form asks for expected salary, answer with one number inside their range, set from this analysis (near the job's range when posted, higher for well-funded US/EU companies), in the form's currency and period. Never below `pay.min_month`.
+4. When a form asks for expected salary, answer with one number inside their range, set from this analysis (near the job's range when posted, higher for well-funded US/EU companies), in the form's currency and period. Never below `pay.min_month` and never above `pay.max_month`.
 
-**Rank** what's left by pay first (higher `pay_usd_month`), then proof fit, and take the top N for this run.
+**Rank** what's left by pay first (higher `pay_usd_month`, counted only up to `pay.max_month`, so a job paying more ranks the same as one paying exactly that), then proof fit, and take the top N for this run. When profile.json sets `realism`, rank by realistic fit first (fewest gaps, most responsibilities matched by real work), then pay, then proof fit.
 
 ## Step 2: Read the application page and pick the method
 
