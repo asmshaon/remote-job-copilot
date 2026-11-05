@@ -27,7 +27,7 @@ $M date           # today
 $D status         # picks still waiting for an answer, and this week's numbers
 ```
 
-Read from `skillsets-and-contributions/<me>/`: `profile.json` (roles, stack, domains, pay, countries, `_workflow` and `_domains_rule` notes if present), `contributions/` (accomplishments), `skills/my-skill-set.md`, `proof-map.md`, `resume/resume-base.json`, `profile-answers.md`.
+Read from `skillsets-and-contributions/<me>/`: `profile.json` (roles, stack, domains, pay, countries, and when present `company_size`, `quality_bar`, `realism`, `_workflow`, `_domains_rule`), `contributions/` (accomplishments), `skills/my-skill-set.md`, `proof-map.md`, `resume/resume-base.json`, `profile-answers.md`.
 
 **Open picks first.** If `$D status` shows picks from earlier days still `picked`, list them in one line each and ask once: "Did you apply to any of these?" Record the answer (Step 7) before searching. Don't block the run if the user doesn't answer.
 
@@ -53,6 +53,11 @@ python .claude/skills/job-apply-shared/scripts/fetch_jobs.py all <scratchpad>/da
 
 The user can override: `daily jobs only hn, yc` or `daily jobs skip linkedin`. If the browser isn't connected, run the APIs only and say so.
 
+**Small-company mode** (profile.json `company_size.max_employees` is 100 or less). Big remote-first companies dominate the boards, so search where small teams post:
+- **Every day, add one small-startup source** on top of the weekday block, rotating: HN "Who is hiring" (founders post there), Y Combinator Work at a Startup (filter team size 1-50, remote), Wellfound (filter company size 1-10, 11-50), newly funded startups → careers pages (other-job-apply E), VC portfolio boards filtered to seed and Series A.
+- **Search words:** add `founding engineer`, `first engineer`, `early-stage`, `seed`, `Series A`, `small team` to the role queries.
+- **Skip feeds of companies known to be over the size limit** (e.g. the Ashby/Greenhouse feeds of large remote-first companies). Don't spend checks on them.
+
 Build searches from their `target_roles`, `stack.terms`, `job_search` queries and `domains` (plus `job_search.domain_queries` when present). Domains widen the search and raise the rank. They don't filter unless the profile says so.
 
 ## Step 2: Filter
@@ -67,6 +72,9 @@ Then keep a job only if it passes **all** the RULES Step 1 common checks (stack,
 
 - **Fresh:** posted in the last 14 days (30 for a company careers page with no date, if it's clearly still open).
 - **Applies on the company's side:** company form, ATS or an email address. Skip Easy Apply only, paid boards, freelance marketplaces, vetting platforms (Toptal, Turing, Andela, Arc, Crossover, Lemon.io, Proxify), and complex systems (Workday, Taleo, iCIMS) unless the user asked for them.
+- **Company size** (when profile.json `company_size` is set): headcount between `min_employees` and `max_employees`. Check it on the company's LinkedIn page, team page, YC or Wellfound profile, or Himalayas "employee count", and note the source. Over the limit: drop. Unknown after two sources: drop.
+- **Quality bar** (when profile.json `quality_bar` is set): the company meets it, with each point sourced.
+- **Realistic fit** (when profile.json `realism` is set): count the post's must-haves with no proof in the user's files. More than `realism.max_hard_gaps`: drop. Also drop anything the `realism.note` rules out (e.g. 5+ years in a language they barely used, a people-manager-only or staff role above their record, domain experience they lack). Don't keep a job "as a stretch" in the picks. At most one stretch job may be mentioned at the end of the report, labelled as such.
 
 ## Step 3: Solid-company check
 
@@ -76,7 +84,7 @@ Then keep a job only if it passes **all** the RULES Step 1 common checks (stack,
 |---|---|---|---|
 | Money | raised in the last 24 months, or public revenue/profit | older funding or clear paying customers | nothing found |
 | Product | live product with real users (customers, reviews, changelog in the last 3 months) | live site, little activity | landing page only |
-| Team | 15+ people on LinkedIn or the team page, growing | 5 to 14 | under 5 or unknown |
+| Team | 15+ people on LinkedIn or the team page, growing (small-company mode: 10 to `max_employees`, growing, with a technical founder or CTO) | 5 to 14 (small-company mode: 5 to 9) | under 5 or unknown |
 | Remote abroad | team members already in Asia or many countries, or uses Deel/Remote.com/Oyster | remote-first, but team in one region | no sign |
 | Hiring health | several open roles, no recent layoffs | one role | layoffs in the last 6 months, or reposted for months |
 
@@ -84,7 +92,7 @@ Then keep a job only if it passes **all** the RULES Step 1 common checks (stack,
 
 ## Step 4: Rank and pick
 
-Rank by: pay (`pay_usd_month`, RULES 1c) first, then solid score, then proof fit (how many main responsibilities match real work), with a bonus for a domain in their `domains` and for posts under 3 days old. Take the top N (default 5, minimum 3 if 3 good ones exist). If fewer than 3 pass, show what passed and say which sources were thin today. Never lower the bars to reach the number.
+Rank by: realistic fit first (fewest gaps, most main responsibilities matched by real work), then pay (`pay_usd_month`, RULES 1c), then solid score, then proof fit (how many main responsibilities match real work), with a bonus for a domain in their `domains` and for posts under 3 days old. Take the top N (default 5, minimum 3 if 3 good ones exist). If fewer than 3 pass, show what passed and say which sources were thin today. Never lower the bars to reach the number.
 
 ## Step 5: Build one pack per pick
 
@@ -113,7 +121,7 @@ $D add '{"rank":1,"company":"...","title":"...","source":"himalayas","job_url":"
 
 One table, best first:
 
-| # | Company · role | Pay / month | Solid | Why it fits (2 real proofs) | Apply via | Pack |
+| # | Company · role | Size | Pay / month | Solid | Why it fits (2 real proofs) | Gaps | Apply via | Pack |
 
 Then one line each: sources searched today (and any that failed or were skipped), how many jobs were seen, and "seen but not solid" or "close but failed X" (max 5, one reason each). End with: "Apply by hand, then tell me `applied 1, 3`."
 
