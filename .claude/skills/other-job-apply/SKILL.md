@@ -1,6 +1,6 @@
 ---
 name: other-job-apply
-description: Run when the user says "other job apply" (or "job apply others"). Also "apply job from others", and any of these with "without agent" (e.g. "apply job from others without agent") - this skill always runs in the main session (default mode), never with subagents. Follows the shared job-apply rules (job-apply-shared/RULES.md), the same as every source, but the jobs come from sources no other apply skill covers - remote job boards and APIs (Remotive, RemoteOK, We Work Remotely, Jobicy, Welcome to the Jungle, 4dayweek, and others), company ATS boards (Greenhouse, Lever, Ashby, Workable...) and company careers pages. It never uses LinkedIn, X/Twitter, Hacker News, Himalayas, Wellfound or Y Combinator, which have their own skills. Finds all jobs that match their accomplishments, skills and resume, remote worldwide, at companies in their target countries (profile.json, never their blocked countries), paying at least their pay floor (profile.json `pay.min_month`). Applies to up to 20 per run with a tailored resume per job, through the company's form or a 3-paragraph email saved as a Gmail draft. Forms are submitted only after the user's go-ahead, and Claude never sends emails. Only applied jobs are saved in apply/<me>/others/<YYYY-MM-DD>/<company-name>/ and recorded in apply/<me>/others/applied.csv. A job applied to from any source is blocked for 6 months in all of them.
+description: Run when the user says "other job apply" (or "job apply others"). Also "apply job from others", and any of these with "without agent" (e.g. "apply job from others without agent") - this skill always runs in the main session (default mode), never with subagents. Follows the shared job-apply rules (job-apply-shared/RULES.md), the same as every source, but the jobs come from sources no other apply skill covers - remote job boards and APIs (Remotive, RemoteOK, We Work Remotely, Jobicy, Welcome to the Jungle, 4dayweek, Indeed, and others), company ATS boards (Greenhouse, Lever, Ashby, Workable...), company careers pages, and the careers pages of newly funded startups (fundedstartupsdaily.com, projectstartups.com). It never uses LinkedIn, X/Twitter, Hacker News, Himalayas, Wellfound or Y Combinator, which have their own skills. Finds all jobs that match their accomplishments, skills and resume, remote worldwide, at companies in their target countries (profile.json, never their blocked countries), paying at least their pay floor (profile.json `pay.min_month`). Applies to up to 20 per run with a tailored resume per job, through the company's form or a 3-paragraph email saved as a Gmail draft. Forms are submitted only after the user's go-ahead, and Claude never sends emails. Only applied jobs are saved in apply/<me>/others/<YYYY-MM-DD>/<company-name>/ and recorded in apply/<me>/others/applied.csv. A job applied to from any source is blocked for 6 months in all of them.
 ---
 
 # Other Job Apply (sources without their own skill)
@@ -60,7 +60,9 @@ Go through **all** of these sources, and note in the report any source that fail
 python .claude/skills/job-apply-shared/scripts/fetch_jobs.py remotive,remoteok,jobicy,wwr <scratchpad>/others/all.json --days 30
 ```
 
-**B. Job boards read in the browser or with WebFetch:** Welcome to the Jungle (Otta), 4dayweek.io, Remote Rocketship, Remote.co, JustRemote, NoDesk, DynamiteJobs, EU Remote Jobs, Landing.jobs, Built In (remote filter), Working Nomads, Arbeitnow. Read only. Don't create accounts on job boards just to browse. (Not Wellfound or Y Combinator, which are excluded.)
+**B. Job boards read in the browser or with WebFetch:** Welcome to the Jungle (Otta), 4dayweek.io, Remote Rocketship, Remote.co, JustRemote, NoDesk, DynamiteJobs, EU Remote Jobs, Landing.jobs, Built In (remote filter), Working Nomads, Arbeitnow, Jobgether (filter by their home country), startup.jobs (remote), Jobspresso, Pangian, Remote First Jobs, Glassdoor (remote filter), plus the stack boards that match their profile.json `stack.terms` (e.g. LaraJobs for Laravel, python.org/jobs for Python, Golang Cafe for Go). Read only. Don't create accounts on job boards just to browse. (Not Wellfound or Y Combinator, which are excluded.)
+
+**Indeed** (indeed.com, browser): search with `remote` as the location and their `target_roles` / `stack.terms` as keywords, last 14 days. Keep only posts whose "Apply on company site" link goes to the company's own careers page or ATS; skip "Easily apply" / Indeed Apply posts and staffing agencies. Indeed is quick to show checks, so follow HUMAN-BROWSING.md and stop at the first one.
 
 **C. Company ATS boards directly** (freshest, often not on boards). WebSearch, keeping posts from the last 30 days:
 - `"remote" ("worldwide" OR "anywhere") <profile.json job_search.ats_query> site:jobs.ashbyhq.com`, e.g. with `("node.js" OR "nestjs" OR "typescript")`
@@ -68,6 +70,12 @@ python .claude/skills/job-apply-shared/scripts/fetch_jobs.py remotive,remoteok,j
 
 **D. Their own lists:**
 - Careers pages of founders/CTOs who accepted their LinkedIn requests (`linkedin/<me>/send-connection/*/`, status `accepted`). Use their **own careers page** only, not their LinkedIn, Wellfound or YC listings.
+
+**E. Newly funded startups → their careers pages** (companies that just raised hire soon, often before posting on boards). These sites list companies, not jobs:
+- fundedstartupsdaily.com: Today's Raises and This Week, or `/raises/<industry>/` (e.g. `/raises/fintech/`), each row's "web" link goes to the company site.
+- projectstartups.com/pages/: `/pages/<market>/`, `/pages/<market>-<stage>/` (e.g. `/pages/fintech-seed/`, `/pages/saas-series-a/`).
+
+Pick the industries that match their profile.json `domains` first, then general SaaS, fintech and AI. Keep startups based in their target countries that raised in the last 90 days. For each, open the company's **own** careers page or ATS (Ashby, Greenhouse, Lever, Workable...) and keep engineering roles that pass the checks below. Skip a startup with no careers page; it can go to outreach instead. Budget: at most 40 company sites per run.
 
 **Merge and de-duplicate** across sources (the same job often appears on 3–4 boards). Keep the company's own posting as the job's main URL when it exists. Then drop anything whose only apply route is an excluded source.
 
