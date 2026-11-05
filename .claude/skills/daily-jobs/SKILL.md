@@ -92,7 +92,7 @@ Then keep a job only if it passes **all** the RULES Step 1 common checks (stack,
 
 ## Step 4: Rank and pick
 
-Rank by: realistic fit first (fewest gaps, most main responsibilities matched by real work), then pay (`pay_usd_month`, RULES 1c), then solid score, then proof fit (how many main responsibilities match real work), with a bonus for a domain in their `domains` and for posts under 3 days old. Take the top N (default 5, minimum 3 if 3 good ones exist). If fewer than 3 pass, show what passed and say which sources were thin today. Never lower the bars to reach the number.
+Rank by: realistic fit first (fewest gaps, most main responsibilities matched by real work), then pay (`pay_usd_month`, RULES 1c, counted only up to their `pay.max_month`: a job paying more than that ranks the same as one paying exactly that), then solid score, then proof fit (how many main responsibilities match real work), with a bonus for a domain in their `domains` and for posts under 3 days old. Take the top N (default 5, minimum 3 if 3 good ones exist). If fewer than 3 pass, show what passed and say which sources were thin today. Never lower the bars to reach the number.
 
 ## Step 5: Build one pack per pick
 
@@ -108,7 +108,7 @@ Folder: `apply/<me>/daily/<YYYY-MM-DD>/<NN>-<company-slug>/` (NN = rank, 01 to 0
 4. **`apply-kit.md`** (what the user pastes while applying by hand), every text per [HUMAN-WRITING.md](../job-apply-shared/HUMAN-WRITING.md):
    - **How to apply:** the method (form, email, DM) and the exact link.
    - **Cover note:** for a form's cover letter field, written per RULES 6c. For an email apply, the 3-paragraph email per RULES 6b (check with `$A email <file>`), saved as `email.md` next to it.
-   - **Likely form answers:** "Why us?", "Tell us about a project", salary (one figure inside their `pay` range from 1c, in the form's currency and period), notice period, visa and work authorization from `profile-answers.md`. An `ASK` value stays `ASK` with a note to answer it once in chat. Check every free-text answer with `$A text "<answer>"`.
+   - **Likely form answers:** "Why us?", "Tell us about a project", salary (one figure inside their `pay` range from 1c, never above `pay.max_month`, in the form's currency and period), notice period, visa and work authorization from `profile-answers.md`. An `ASK` value stays `ASK` with a note to answer it once in chat. Check every free-text answer with `$A text "<answer>"`.
    - **Watch out:** anything odd (time zone overlap asked, assessment step, a gap between the post and their stack). Name stack gaps honestly; never hide them.
 
 Then record each pick:
