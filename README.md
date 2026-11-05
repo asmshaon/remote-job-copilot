@@ -9,6 +9,7 @@ What it does for each person:
 | `profile setup` | creates your folder and settings from your resume and accomplishments (do this first) |
 | `outreach` | LinkedIn connection notes for founders/CTOs (company), project buyers (client) and hiring teams. You send them yourself |
 | `job apply` / `hn job apply` / `apply <link>` ... | finds remote jobs that fit you, tailors your resume, fills forms (you approve every Submit) or saves emails as Gmail drafts |
+| `daily jobs` | 3 to 5 solid remote jobs a day, checked and researched, each with a tailored resume and an apply kit. You apply by hand, then say `applied 1, 3` |
 | `custom resume` + a job post | a one-page resume tailored to that post |
 | `product outreach` | finds small funded startups, tests their product like a user, and drafts a short email about a real bug to a founder |
 | `upwork profile` | Upwork title, overview, catalog offers and thumbnails, ranked by search impact |
