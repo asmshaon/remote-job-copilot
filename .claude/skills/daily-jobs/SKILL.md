@@ -70,7 +70,7 @@ $A check "<job url>" "<company>" "<title>" "<apply url>"   # SKIP if applied fro
 
 Then keep a job only if it passes **all** the RULES Step 1 common checks (stack, experience, proof fit, remote worldwide or home country named on the **company's own page** with the proving sentence quoted, company country via `$A country`, pay by RULES 1c, real company, not applied), plus:
 
-- **Fresh:** posted in the last 14 days (30 for a company careers page with no date, if it's clearly still open).
+- **Fresh:** posted in the last 14 days, or profile.json `freshness_days` when set (30 for a company careers page with no date, if it's clearly still open).
 - **Applies on the company's side:** company form, ATS or an email address. Skip Easy Apply only, paid boards, freelance marketplaces, vetting platforms (Toptal, Turing, Andela, Arc, Crossover, Lemon.io, Proxify), and complex systems (Workday, Taleo, iCIMS) unless the user asked for them.
 - **Company size** (when profile.json `company_size` is set): headcount between `min_employees` and `max_employees`. Check it on the company's LinkedIn page, team page, YC or Wellfound profile, or Himalayas "employee count", and note the source. Over the limit: drop. Unknown after two sources: drop.
 - **Quality bar** (when profile.json `quality_bar` is set): the company meets it, with each point sourced.
