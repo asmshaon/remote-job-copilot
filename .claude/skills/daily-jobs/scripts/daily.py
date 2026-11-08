@@ -57,7 +57,8 @@ def save(data):
 
 
 def norm_url(u):
-    return (u or "").split("?")[0].split("#")[0].rstrip("/").lower()
+    # Keep params that identify the job (HN item?id=...), drop tracking ones.
+    return me.norm_url(u)
 
 
 def key(company, title):

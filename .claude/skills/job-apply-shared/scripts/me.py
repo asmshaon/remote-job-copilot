@@ -122,6 +122,24 @@ def out_dir(area):
     return ROOT / area / slug()
 
 
+TRACKING_PARAMS = re.compile(r"^(utm_.*|ref|referrer|source|src|via|gh_src|lever-origin|lever-source.*|fbclid|gclid|trk.*)$", re.I)
+
+
+def norm_url(u):
+    """URL for matching the same job: lowercase, no fragment, no trailing slash, tracking params
+    (utm_*, ref, source...) removed, but params that identify the job (HN ?id=, Greenhouse ?gh_jid=,
+    LinkedIn ?currentJobId=) kept, sorted."""
+    from urllib.parse import parse_qsl, urlencode, urlsplit
+    u = (u or "").strip()
+    if not u:
+        return ""
+    p = urlsplit(u)
+    q = sorted((k, v) for k, v in parse_qsl(p.query, keep_blank_values=True) if not TRACKING_PARAMS.match(k))
+    base = f"{p.netloc}{p.path}".rstrip("/").lower()
+    base = base[4:] if base.startswith("www.") else base
+    return base + ("?" + urlencode(q).lower() if q else "")
+
+
 def resume_base_path():
     return person_dir() / "resume" / "resume-base.json"
 

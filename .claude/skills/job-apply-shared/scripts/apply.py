@@ -233,7 +233,7 @@ def find(url, company=None, title=None, apply_url=None):
     external apply URL, so reposts are caught) that still blocks it. Withdrawn drafts don't count.
     Applications older than COOLDOWN_DAYS no longer block."""
     jid, k = job_id(url), key(company, title) if company and title else None
-    au = (apply_url or "").split("?")[0].rstrip("/").lower()
+    au = me.norm_url(apply_url)
     cutoff = me.today() - timedelta(days=COOLDOWN_DAYS)
     hits = [
         r for r in all_rows()
@@ -241,7 +241,7 @@ def find(url, company=None, title=None, apply_url=None):
         and datetime.strptime(r["date"], "%Y-%m-%d").date() > cutoff
         and (job_id(r["linkedin_url"]) == jid
              or (k and key(r["company"], r["title"]) == k)
-             or (au and r.get("apply_url", "").split("?")[0].rstrip("/").lower() == au))
+             or (au and me.norm_url(r.get("apply_url", "")) == au))
     ]
     return max(hits, key=lambda r: r["date"]) if hits else None
 
