@@ -18,8 +18,8 @@ skillsets-and-contributions/
     resume/resume-guide.md     optional: your own rules for how your resumes read (both styles)
     profile-picture/           your photo (profile.jpg), used only when a form asks
     product-directories/       your list of startup and product directories (for product outreach)
-    others/address/address.txt your postal address   } never committed (.gitignore),
-    others/contacts/phone.txt  your phone number     } only read when a form asks
+    others/address/address.txt your postal address   } only read when a form asks
+    others/contacts/phone.txt  your phone number     }
 ```
 
 ## Who am I on this machine
@@ -34,9 +34,9 @@ python .claude/skills/job-apply-shared/scripts/me.py check     # what is still m
 Your output then goes into your own folders: `apply/<slug>/`, `linkedin/<slug>/`, `product-outreach/<slug>/`
 and `upwork/<slug>/`.
 
-## Rules for a shared repo
+## Your folder is private to your machine
 
-- Only edit your own folder and your own output folders. Never open, copy or change someone else's.
-- Your address and phone stay on your machine (git-ignored). Don't put them anywhere else.
-- Everything else in your folder is pushed to the shared repo and visible to every collaborator. Leave out
-  anything you don't want them to see.
+- Your folder (and your `apply/`, `linkedin/`, `product-outreach/`, `upwork/` folders) is **git-ignored**.
+  It is never pushed, so change anything in it without affecting anyone else, and pulls never overwrite it.
+- Only `_template/` and this README are shared. Improve them for everyone only after agreeing on it.
+- Back it up yourself (copy it, or make it its own private git repo). See the main README, "Back up your own data".

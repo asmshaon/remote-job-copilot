@@ -20,7 +20,7 @@ $M paths          # every file the skills will read for this person
 
 - **Their files only.** Every fact in profile.json, resume-base.json, proof-map.md and profile-answers.md comes from the files they give or their answers in chat. Never copy anything from another person's folder or from `_template`'s example values. Never guess a country, pay figure, number or skill.
 - **Never touch another person's folder.** Not to read it as an example, and not to "fix" it.
-- **Privacy.** `address.txt` and `phone.txt` are git-ignored and stay on this machine. Everything else in their folder is pushed to the shared repo, where every collaborator can read it. Tell them that before the first commit, and leave out anything they don't want shared.
+- **Privacy.** Their whole folder is git-ignored and stays on this machine. It is never pushed, so nobody else sees it and nobody else's setup can overwrite it. Tell them to back it up themselves if they want a copy elsewhere (see README, "Back up your own data").
 - **Human writing.** Any text that ends up in front of other people later (resume lines, profile summary) follows [HUMAN-WRITING.md](../job-apply-shared/HUMAN-WRITING.md).
 
 ## Step 1: Who is this
@@ -109,18 +109,11 @@ Fill what the files say (name, preferred name, email, links, current title and c
 
 1. `$M check` must print `ready: <slug>`. Fix anything it lists (or tell them which file is still missing).
 2. Show them, briefly: the profile.json settings, their resume style (classic: the jobs and bullet ranges in resume-base.json and the base resume PDF path; modern: the sample resume and their resume-guide.md), the proof-map rows, and every `ASK` left.
-3. Remind them that their folder (except address and phone) is visible to everyone with access to the repo.
+3. Remind them that their folder stays on this machine only (git-ignored). To use it on another computer, they copy the folder there.
 
-## Step 9: Commit and push
+## Step 9: Nothing to push
 
-After their okay, through the [git-push skill](../git-push/SKILL.md), only their folder:
-
-```bash
-git add skillsets-and-contributions/<slug>
-git status --porcelain skillsets-and-contributions/<slug>/others   # must show nothing staged
-git commit -m "<slug>: profile setup"
-git push
-```
+Their folder is git-ignored, so there is no commit. Confirm `git status --porcelain` shows nothing from `skillsets-and-contributions/<slug>/`. If it does, `.gitignore` was changed: stop and tell them.
 
 ## Report
 

@@ -339,15 +339,9 @@ Ranking is the first priority, so it's checked, not assumed:
 - keep the availability badge on and the hours true
 - ask each happy client for a review when a job closes
 
-## Step 14: Save and commit
+## Step 14: Saved locally (nothing to push)
 
-Then follow the [git-push skill](../git-push/SKILL.md):
-
-```bash
-git add upwork/<me> skillsets-and-contributions/<me>/profile-answers.md
-git commit -m "<me>: upwork profile: $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <MCP changes, paste files ready, rank rows>"
-git push
-```
+Everything this run made is saved in the person's own folders, which are git-ignored and stay on this machine. There is nothing to commit or push. End the report with where the files are.
 
 ## Report
 

@@ -1,6 +1,6 @@
 ---
 name: job-apply
-description: Run when the user says "job apply" (all sources at once), optionally with a number and exclusions, e.g. "job apply", "job apply 10", "job apply exclude linkedin job, twitter", "job apply only hn, yc". Orchestrates the job-apply skills with subagents. It launches one job-source agent per included source (LinkedIn Jobs, LinkedIn posts, X/Twitter, Hacker News, Himalayas, Wellfound, Y Combinator, other boards), in parallel across different sites but never two on the same site at once, all browsing like a person (HUMAN-BROWSING.md), then one resume-builder agent for all shortlisted jobs. The main session then fills forms, creates Gmail drafts, runs one review with the user, submits only what they approve, saves each application under its source's apply/<me>/ folder, and commits once. Excluded sources get no agent. If the user adds "without agent" (e.g. "job apply without agent", "job apply only hn, yc without agent"), no subagents are used and the main session runs each included source's skill itself, one after another. A single source ("apply job from twitter", with or without "without agent") goes to that source's own skill, not this one. All shared rules in job-apply-shared/RULES.md apply.
+description: Run when the user says "job apply" (all sources at once), optionally with a number and exclusions, e.g. "job apply", "job apply 10", "job apply exclude linkedin job, twitter", "job apply only hn, yc". Orchestrates the job-apply skills with subagents. It launches one job-source agent per included source (LinkedIn Jobs, LinkedIn posts, X/Twitter, Hacker News, Himalayas, Wellfound, Y Combinator, other boards), in parallel across different sites but never two on the same site at once, all browsing like a person (HUMAN-BROWSING.md), then one resume-builder agent for all shortlisted jobs. The main session then fills forms, creates Gmail drafts, runs one review with the user, submits only what they approve, saves each application under its source's apply/<me>/ folder, and saves the results locally (personal folders are git-ignored). Excluded sources get no agent. If the user adds "without agent" (e.g. "job apply without agent", "job apply only hn, yc without agent"), no subagents are used and the main session runs each included source's skill itself, one after another. A single source ("apply job from twitter", with or without "without agent") goes to that source's own skill, not this one. All shared rules in job-apply-shared/RULES.md apply.
 ---
 
 # Job Apply (all sources, with agents)
@@ -22,7 +22,7 @@ If the command contains **"without agent"** (or "without agents", "no agent", "n
 2. Parse included sources and TARGET exactly as in Phase 0, and say in one line which sources will run (in the main session) and which are excluded.
 3. Run RULES Step 0 once for all included sources.
 4. For each included source, in the table order: run that source's skill (the "Skill" column) yourself in the main session: its Step 1 search, then RULES Steps 2–6 (staging, custom resume, company notes, cover letter / email, form filling up to Submit). Skip jobs another source already staged in this run (Phase 2 de-dup rules).
-5. Then one review with the user for everything (Phase 4), save per source (Phase 5) and commit once.
+5. Then one review with the user for everything (Phase 4), and save per source (Phase 5).
 
 If only one source is named with "without agent" (`apply job from twitter without agent`), just run that source's skill; this orchestrator isn't needed.
 
@@ -91,24 +91,18 @@ Show one numbered list, **grouped by source**, per RULES Step 7: company, title,
 - Email drafts are already in Gmail Drafts for them to send. DMs are for them to send, and are recorded only after they confirm.
 - Unapproved items are dropped: close their tabs, delete their staging folders.
 
-## Phase 5: Save and commit (main session)
+## Phase 5: Save (main session)
 
 For every application actually made, per RULES Step 8 **using that job's own source**:
 - Move its staging folder to `apply/<me>/<source folder>/<YYYY-MM-DD>/<company-name>/` (local date `python .claude/skills/job-apply-shared/scripts/me.py date`), and add `application.md` (no address or phone).
 - `python .claude/skills/job-apply-shared/scripts/apply.py --source <key> add '<json>'`.
 
-Then commit **once** for the whole run:
-```bash
-git add apply/<me>
-git commit -m "<me>: apply (all): $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <N> applied (<source: count, ...>)"
-git push
-```
-Only `apply/<me>/` changes go in this commit. Leave anything else alone.
+`apply/<me>/` is git-ignored, so there is nothing to commit or push. End the report with where the applications were saved.
 
 ## Report
 
 - Agents launched and excluded. Per source: found → shortlisted → after de-dup → applied.
-- Applied list grouped by source (company, title, country, pay, method, folder) and the commit hash.
+- Applied list grouped by source (company, title, country, pay, method, folder).
 - Email drafts waiting in Gmail, and DMs waiting for the user to send.
 - Skipped / dropped jobs with reasons (source checks, de-dup, 6-month block, resume failed, not approved).
 - Sources that were blocked (login, rate limit) and what the user needs to do.

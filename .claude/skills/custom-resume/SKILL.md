@@ -206,9 +206,4 @@ Write `apply/<me>/<date>/<company-name>/report.md` and give the user the same su
 - Relevant work that isn't on the resume (projects with no job slot), if any.
 - Path to the PDF.
 
-Then commit and push only that folder (through the [git-push skill](../git-push/SKILL.md)):
-```bash
-git add apply/<me>/<date>/<company-name>
-git commit -m "<me>: resume: $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <company> <role>"
-git push
-```
+The folder is git-ignored (personal), so there is nothing to commit or push.

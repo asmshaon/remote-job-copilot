@@ -4,6 +4,10 @@ A shared [Claude Code](https://claude.com/claude-code) workspace for remote job 
 Anyone can use it. Each person sets up their own folder once, and from then on every search, resume,
 cover letter and LinkedIn note is built from **their** files and **their** settings. The skills are the same for everyone.
 
+**Your data stays on your machine.** Your profile, resume, accomplishments and every result are in
+git-ignored folders. They are never pushed, so you can change anything in them without touching anyone
+else's setup, and a `git pull` never overwrites them. The repo itself holds only the shared tool.
+
 What it does for you:
 
 - finds remote jobs that fit your real work, checks each one on the company's own page, and builds a tailored one-page resume for it
@@ -110,13 +114,12 @@ Open the repo in Claude Code (`claude --chrome`) and type one of these:
 | `outreach` | LinkedIn connection notes for three tracks: company (founders and CTOs), client (people who buy projects) and hiring team. You send each request yourself |
 | `product outreach` | finds small funded startups, tries their product, and drafts an email to a founder about a real bug you can reproduce |
 | `upwork profile` | Upwork title, overview, catalog offers and thumbnails |
-| `push` | saves your results to GitHub (this also happens on its own at the end of every task) |
 
 A good daily rhythm: `daily jobs` in the morning, apply within 24 hours, `outreach` once a day.
 
 ### What happens to your results
 
-Everything lands in your own folders, and each task ends by committing and pushing them:
+Everything lands in your own folders on your machine (git-ignored, never pushed):
 
 ```
 apply/<your-slug>/daily/<date>/01-company/   daily jobs packs (job post, company notes, resume PDF, apply kit)
@@ -159,19 +162,34 @@ Your other files in the same folder:
 | `proof-map.md` | your real work mapped to searches, services and offers (built by profile setup) |
 | `profile-answers.md` | saved answers for application forms; `ASK` items are asked once, then saved |
 | `resume/` | your resume PDF, `resume-base.json` (classic) and the optional `resume-guide.md` |
-| `others/address/`, `others/contacts/` | address and phone. **Never committed** (git-ignored) |
+| `others/address/`, `others/contacts/` | address and phone, only read when a form asks |
+
+The whole folder is git-ignored: it stays on your machine.
 
 ## 5. Several people, one repo
 
-- Each machine works as one person, set in `.me` (git-ignored). Switch with `switch to <slug>` or
+- Each person's folders are **git-ignored**: `skillsets-and-contributions/<slug>/`, `apply/<slug>/`,
+  `linkedin/<slug>/`, `product-outreach/<slug>/` and `upwork/<slug>/`, plus `.me` and `.venv/`.
+  Customize them however you like. Nobody else sees them, and pulls never touch them.
+- Each machine works as one person, set in `.me`. Switch with `switch to <slug>` or
   `python .claude/skills/job-apply-shared/scripts/me.py set <slug>`.
-- **Work only in your own folders.** Never open, copy or change another person's folder, ledgers or notes.
-- Everything in your folder is visible to everyone with access to the repo, except your address and phone.
-  Leave out anything you don't want others to see.
 - Everyone uses their own LinkedIn, Gmail, Upwork and Chrome. The LinkedIn limits are per person.
-- Commits start with your slug (`jane-doe: daily jobs: ...`). Pull before you push: `git pull --rebase origin main`.
-- The skills, agents, scripts and `_template` are shared. A change there affects everyone, so agree on it
-  first, keep personal facts out of them (those go in your own folder), and say in the commit that it affects every user.
+- The only things pushed are **shared** changes: skills, agents, scripts, `_template`, docs. A change
+  there affects everyone, so agree on it first, keep personal facts out of it, and say in the commit
+  that it affects every user. Pull before you push: `git pull --rebase origin main`.
+- Want a different rule just for you? Put it in your own folder (`profile.json`, `resume/resume-guide.md`),
+  not in a shared skill. Personal Claude notes can go in `CLAUDE.local.md` (also git-ignored).
+
+### Back up your own data
+
+Your folders live only on your computer. To keep a copy or use another machine, pick one:
+
+- copy the folders (or zip them) to a drive or cloud folder now and then, or
+- make your own **private** repo inside your folder, e.g.
+  ```bash
+  cd skillsets-and-contributions/<slug> && git init && git remote add origin <your private repo>
+  ```
+  (do the same for `apply/<slug>/` if you want your results backed up). The main repo ignores these.
 
 ## 6. Safety rules built into every skill
 
@@ -191,7 +209,8 @@ Your other files in the same folder:
 | `NOT BUILT` with a list of bullets | the resume text broke a writing rule (AI-sounding word, a sentence over 30 words, a single word alone on the last line, too much or too little on the page). Claude fixes these itself; if you edit by hand, fix what it lists |
 | Browser tools don't respond | `/chrome` in the session to reconnect; make sure you're logged in to the site in that Chrome |
 | `daily jobs` finds 0 jobs | your filters may be strict. Loosen `company_size`, `quality_bar`, `freshness_days` or `pay.min_month`, or run again tomorrow (each weekday searches different sources) |
-| Push rejected | `git pull --rebase origin main`, then push again |
+| Push rejected (shared changes) | `git pull --rebase origin main`, then push again |
+| My folder disappeared after a pull | only possible once, when this repo stopped tracking personal folders. Restore it from your backup or from git history (`git checkout <old commit> -- skillsets-and-contributions/<slug>`) |
 
 ## 8. Layout
 
@@ -201,8 +220,9 @@ Your other files in the same folder:
 requirements.txt       Python packages
 skillsets-and-contributions/
   _template/           what a new person's folder starts from
-  <slug>/              one folder per person
-apply/ linkedin/ product-outreach/ upwork/   one <slug>/ folder per person inside each
-.me                    (not committed) which person this machine works as
-.venv/                 (not committed) Python packages
+  <slug>/              your folder (git-ignored)
+apply/ linkedin/ product-outreach/ upwork/   one <slug>/ folder per person inside each (git-ignored)
+.me                    (git-ignored) which person this machine works as
+.venv/                 (git-ignored) Python packages
+CLAUDE.local.md        (git-ignored, optional) your own notes for Claude
 ```

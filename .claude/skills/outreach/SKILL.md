@@ -1,6 +1,6 @@
 ---
 name: outreach
-description: Run when the user says "outreach" (also "outrich", "linkedin outreach"), optionally with a number and exclusions, e.g. "outreach", "outreach 5", "outreach except client", "outreach exclude hiring team", "outreach only company". Runs their three daily LinkedIn connection tracks with agents. Company = CEO/CTO/technical co-founder (5), client = project buyers (5), hiring team = recruiters and engineering managers at companies they applied to (2), for 12 a day, with a hard cap of 90 requests in any 7 days. The main session does the status check and reject lists once for all tracks, runs one outreach agent per included track, one after another (never two on LinkedIn at once), to find people and write notes, removes cross-track duplicates, hands the user one combined list to send themselves, and commits once. Excluded tracks get no agent. Claude never clicks anything on LinkedIn.
+description: Run when the user says "outreach" (also "outrich", "linkedin outreach"), optionally with a number and exclusions, e.g. "outreach", "outreach 5", "outreach except client", "outreach exclude hiring team", "outreach only company". Runs their three daily LinkedIn connection tracks with agents. Company = CEO/CTO/technical co-founder (5), client = project buyers (5), hiring team = recruiters and engineering managers at companies they applied to (2), for 12 a day, with a hard cap of 90 requests in any 7 days. The main session does the status check and reject lists once for all tracks, runs one outreach agent per included track, one after another (never two on LinkedIn at once), to find people and write notes, removes cross-track duplicates, hands the user one combined list to send themselves, and saves the results locally (personal folders are git-ignored). Excluded tracks get no agent. Claude never clicks anything on LinkedIn.
 ---
 
 # Outreach (all LinkedIn tracks, with agents)
@@ -68,14 +68,9 @@ Then the **messages due** of every included track and the product track, with th
 
 Tell them: open each profile → **Connect** → **Add a note** → paste → **Send**. For messages: profile → **Message** → paste → **Send**. For anyone they skip: `python linkedin/scripts/ledger.py <track> set <url> not-sent`. The next run's Phase 1 confirms who was actually sent.
 
-## Phase 5: Commit and push (once)
+## Phase 5: Saved locally (nothing to push)
 
-```bash
-git add linkedin/<me>/send-connection linkedin/<me>/reject-connection linkedin/<me>/messages linkedin/<me>/follow-up
-git commit -m "<me>: outreach: $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <company N, client N, hiring N> prepared, <A> accepted, <R> rejected"
-git push
-```
-Only the `linkedin/<me>/send-connection` and `linkedin/<me>/reject-connection` folders go in this commit.
+Everything this run made is saved in the person's own folders, which are git-ignored and stay on this machine. There is nothing to commit or push. End the report with where the files are.
 
 ## Report
 

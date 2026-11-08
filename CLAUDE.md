@@ -22,12 +22,13 @@ python .claude/skills/job-apply-shared/scripts/me.py check    # ready, or what i
 - Their outputs: `apply/<me>/`, `linkedin/<me>/`, `product-outreach/<me>/`, `upwork/<me>/`.
 - No `.me` yet, or `check` prints `NOT READY`: run the [profile-setup skill](.claude/skills/profile-setup/SKILL.md) before anything else.
 - **Never read, use, change or commit another person's folders.** Their settings, contacts, ledgers and notes are theirs.
+- **Personal folders are git-ignored.** `skillsets-and-contributions/<me>/` and the output folders stay on this machine and are never pushed. The repo holds only the shared tool, so each person can customize their own files freely. Never `git add -f` a personal path.
 
-## After every task: push to GitHub
+## After every task: save, and push only shared changes
 
-When a task that changed files in this repo is finished, the **last step is always the [git-push skill](.claude/skills/git-push/SKILL.md)**. Run it without being asked: commit only that task's files (only `<me>` folders, unless the task was a skill or script edit) and push to `origin/main`. Then include the commit hash in the final message.
+A person's results (applications, packs, ledgers, profile edits) are saved in their own git-ignored folders, so there is nothing to push for them. Say where they were saved.
 
-Skip it only when nothing changed, the task isn't finished or is waiting on the user, or they said not to push or commit.
+When a task changed **shared** files (a skill, agent, script, the template or a README, which happens only when the user asks), the last step is the [git-push skill](.claude/skills/git-push/SKILL.md): commit those files and push to `origin/main`, then include the commit hash in the final message.
 
 ## Writing anything another person will read
 

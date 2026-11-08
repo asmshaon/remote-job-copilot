@@ -1,6 +1,6 @@
 ---
 name: git-push
-description: Commit and push the finished task's changes to the shared GitHub repo (origin/main). Run it automatically at the end of every task that changed files in this repo (a skill run, a skill edit, a fix, notes), and whenever the user says "push", "git push", "commit and push", "push to github" or "save to github". Stages only the files the task changed, only in the current person's own folders (plus shared skill files when the task was a skill edit), never secrets, never an address or phone number, writes a commit message in the repo's style, pushes, and reports the commit hash. Never force-pushes, never skips hooks.
+description: Commit and push the finished task's shared changes (skills, agents, scripts, template, docs) to the GitHub repo (origin/main). Personal folders are git-ignored and never pushed. Run it automatically at the end of every task that changed shared files in this repo (a skill run, a skill edit, a fix, notes), and whenever the user says "push", "git push", "commit and push", "push to github" or "save to github". Stages only the shared files the task changed (never personal folders), never secrets, never an address or phone number, writes a commit message in the repo's style, pushes, and reports the commit hash. Never force-pushes, never skips hooks.
 ---
 
 # Git Push
@@ -9,19 +9,19 @@ Trigger: **automatically at the end of every task that changed files in this rep
 
 Skills that have their own "Commit and push" step (job-apply, outreach, product-outreach...) run that step **through this skill**: their step decides the paths and the message, and this skill adds the checks below.
 
+## Personal folders are never pushed
+
+Each person's folders are **git-ignored** (see `.gitignore`): `skillsets-and-contributions/<me>/`, `apply/<me>/`, `linkedin/<me>/`, `product-outreach/<me>/`, `upwork/<me>/`, plus `.me` and `.venv/`. They stay on the person's machine, so everyone can customize their own files without overwriting anyone else's.
+
+- When a skill's commit step names only personal paths, there is nothing to push. Say "saved locally in <folder> (personal, not pushed)" and stop.
+- **Never** `git add -f` a personal path, and never edit `.gitignore` to let one in.
+- Only shared files are committed: `.claude/`, `linkedin/scripts/`, `CLAUDE.md`, `README.md`, `requirements.txt`, `.gitignore`, `notes/`, `skillsets-and-contributions/_template/` and `skillsets-and-contributions/README.md`. They change only when the task was a skill, script or doc edit the user asked for. Say in the commit body that it changes the workflow for everyone.
+
 ## When not to push
 
-- Nothing changed (`git status --porcelain` is empty): say "nothing to push" and stop.
+- Nothing shared changed (`git status --porcelain` is empty): say "nothing to push" and stop.
 - The task isn't finished, failed, or is waiting on the user (a review, an approval, a password): don't push half-done work. Push once it's done.
 - The user said "don't push", "commit only" or "don't commit": do only what they asked.
-
-## Shared repo: only your own folders
-
-Several people push to this repo. `<me>` is the person in `.me` (`python .claude/skills/job-apply-shared/scripts/me.py`).
-
-- A skill run commits only `<me>` paths: `skillsets-and-contributions/<me>/`, `apply/<me>/`, `linkedin/<me>/`, `product-outreach/<me>/`, `upwork/<me>/`.
-- **Never stage another person's folder**, even if it shows as changed (for example after a pull). If something changed there, leave it and say so.
-- Shared files (`.claude/`, `linkedin/scripts/`, `CLAUDE.md`, `README.md`, `skillsets-and-contributions/_template/`) change only when the task was a skill or script edit the user asked for. Mention in the commit body that it changes the workflow for everyone.
 
 ## Step 1: See what changed
 

@@ -1,13 +1,24 @@
 __pycache__/
 
-# who is using this checkout (one line: your slug). Each person keeps their own.
+# ---- Personal data: stays on each person's machine, never pushed ----
+# Everyone customizes their own folders freely without touching anyone else's.
+# The shared tool (skills, agents, scripts, template, READMEs) is all that the repo holds.
+
+# who is using this checkout (one line: your slug)
 .me
 
-# private contact details stay on each person's machine
-skillsets-and-contributions/*/others/address/*
-skillsets-and-contributions/*/others/contacts/*
+# your profile, resume, accomplishments, answers (only the template and README are shared)
+skillsets-and-contributions/*/
+!skillsets-and-contributions/_template/
 
-# personal Claude Code settings
+# your results: job applications, LinkedIn ledgers, product outreach, Upwork files
+apply/*/
+linkedin/*/
+!linkedin/scripts/
+product-outreach/*/
+upwork/*/
+
+# personal Claude Code settings and notes
 .claude/settings.local.json
 CLAUDE.local.md
 

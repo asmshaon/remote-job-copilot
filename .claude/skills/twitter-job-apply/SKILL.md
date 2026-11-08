@@ -100,13 +100,9 @@ When the only way to apply is an X DM:
 - Files: as in RULES Step 8 (`job-description.md`, `<resume_file>`, `content.json`, `report.md`, `company-notes.md`, `application.md`, plus `email.md` or `dm.md`). Never write their address or phone number into these files.
 - Record: `$A add '{"company":"...","title":"...","company_country":"...","pay_range":"...","pay_usd_month":"...","linkedin_url":"<tweet url>","apply_url":"...","method":"form|account|email|dm","folder":"apply/<me>/twitter/<date>/<company-name>","status":"applied|email-draft"}'`
 
-## Changed Step 9: Commit and push
+## Changed Step 9: Saved locally (nothing to push)
 
-```bash
-git add apply/<me>/twitter
-git commit -m "<me>: apply (twitter): $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <N> applied (<company list>)"
-git push
-```
+Everything this run made is saved in the person's own folders, which are git-ignored and stay on this machine. There is nothing to commit or push. End the report with where the files are.
 
 ## Report
 

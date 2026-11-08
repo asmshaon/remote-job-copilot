@@ -105,13 +105,9 @@ Same as RULES 6b. The greeting uses the hiring contact's first name when the pos
 - Files: as in RULES Step 8 (`job-description.md`, `<resume_file>`, `content.json`, `report.md`, `company-notes.md`, `application.md`, plus `email.md` when applied by email).
 - Record: `$A add '{"company":"...","title":"...","company_country":"...","pay_range":"...","pay_usd_month":"...","linkedin_url":"<job page url where found>","apply_url":"<company apply url>","method":"form|account|email","folder":"apply/<me>/others/<date>/<company-name>","status":"applied|email-draft"}'`
 
-## Changed Step 9: Commit and push
+## Changed Step 9: Saved locally (nothing to push)
 
-```bash
-git add apply/<me>/others
-git commit -m "<me>: apply (others): $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <N> applied (<company list>)"
-git push
-```
+Everything this run made is saved in the person's own folders, which are git-ignored and stay on this machine. There is nothing to commit or push. End the report with where the files are.
 
 ## Report
 

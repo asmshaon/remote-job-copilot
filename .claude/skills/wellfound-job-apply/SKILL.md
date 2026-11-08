@@ -51,7 +51,7 @@ Wellfound applications use their Wellfound profile, so it must match their resum
 - `job-description.md` starts with the Wellfound job URL, company page URL, salary and equity as shown, remote policy text, and posted date, then the full description.
 - Save the note as `note.md` in the job folder.
 - Folder: **`apply/<me>/wellfound/<YYYY-MM-DD>/<company-name>/`**. Record with `$A add` (`method: wellfound`, `form`, or `email`) and set `linkedin_url` to the Wellfound job URL.
-- Commit: `git add apply/<me>/wellfound` and use the message `<me>: apply (wellfound): <date time> — <N> applied (<companies>)`.
+- Saved locally: `apply/<me>/` is git-ignored, so nothing is committed or pushed.
 
 ## Report
 

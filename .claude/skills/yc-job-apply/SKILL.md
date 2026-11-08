@@ -51,7 +51,7 @@ A="python .claude/skills/job-apply-shared/scripts/apply.py --source yc"   # ledg
 - `job-description.md` starts with the Work at a Startup job URL, company page, YC batch, founders' names, salary and equity as shown, remote terms quoted, and posted date, then the full description.
 - Save the message as `message.md` in the job folder.
 - Folder: **`apply/<me>/yc/<YYYY-MM-DD>/<company-name>/`**. Record with `$A add` (`method: waas`, `form`, or `email`) and set `linkedin_url` to the job URL.
-- Commit: `git add apply/<me>/yc` and use the message `<me>: apply (yc): <date time> — <N> applied (<companies>)`.
+- Saved locally: `apply/<me>/` is git-ignored, so nothing is committed or pushed.
 
 ## Report
 

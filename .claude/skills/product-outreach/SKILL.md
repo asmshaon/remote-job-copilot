@@ -9,7 +9,7 @@ Trigger: **`product outreach`**. Examples:
 - `product outreach`: find and email up to **5 products** (default).
 - `product outreach 3`: up to 3 products.
 - `product outreach <product url>`: only this product. The filters are still checked, but a failed check is shown to the user instead of silently skipping (their blocked countries stay blocked).
-- `product outreach replies`: **replies and follow-ups only**, fast. Runs Step 0a with "Answering replies" (Gmail checks, reply drafts, `$L due` follow-ups and held teammates) and Step 0c (LinkedIn messages due today, read from Messaging once), shows the drafts for their okay, saves them, updates `outreach.md` and the ledger, and commits. No new products, no LinkedIn. Run it whenever a founder may have replied: replies should be answered within hours, not at the next full run.
+- `product outreach replies`: **replies and follow-ups only**, fast. Runs Step 0a with "Answering replies" (Gmail checks, reply drafts, `$L due` follow-ups and held teammates) and Step 0c (LinkedIn messages due today, read from Messaging once), shows the drafts for their okay, saves them, updates `outreach.md` and the ledger, and saves locally. No new products, no LinkedIn. Run it whenever a founder may have replied: replies should be answered within hours, not at the next full run.
 
 **How it differs from the job-apply skills:** there is no job post. The user reaches the people who build a product they could make better, shows they have used it and found real problems, and lets their past work speak. The email never asks for a job.
 
@@ -26,7 +26,7 @@ Trigger: **`product outreach`**. Examples:
 - **Passwords and payment.** Never type a password or payment details. A product that needs an account: The user types the password (or okays "Continue with Google" for that site). A product that needs a card for its trial is tested only on its public pages.
 - **Countries.** The company is based in one of the user's `company_countries` (profile.json, the same list as the job-apply skills; `$L add` enforces it). **Never one of their `blocked_countries`**, and follow `company_countries_note` (e.g. skip companies whose team is mainly in a blocked country).
 - **Human writing.** Every email, connection note and suggested message follows [HUMAN-WRITING.md](../job-apply-shared/HUMAN-WRITING.md): easy words, short sentences (never over 30 words), concrete details, nothing that sounds like an LLM wrote it. Bug details stay simple too: say what they clicked and what happened. Checked with the helpers (Step 6).
-- **Privacy.** `product-outreach/<me>/` is committed to GitHub. Never save their address, phone number, passwords, cookies, auth tokens or API keys there. Redact tokens in saved API requests (`Authorization: Bearer <redacted>`). **Security issues are never written to the repo** (see Step 4).
+- **Privacy.** `product-outreach/<me>/` is git-ignored and stays on this machine, but it may be copied or shared later. Never save their address, phone number, passwords, cookies, auth tokens or API keys there. Redact tokens in saved API requests (`Authorization: Bearer <redacted>`). **Security issues are never written to the repo** (see Step 4).
 
 ## Sources of truth (read at the start of every run)
 
@@ -93,7 +93,7 @@ The product track works like the other LinkedIn tracks (company, client, hiring 
 
 Work in a staging folder `<scratchpad>/product-outreach/<product-name>/` until the drafts exist. Products that get skipped leave nothing in `product-outreach/<me>/`; they're only listed in the chat report.
 
-Run order: **check old drafts, follow-ups and held teammates → LinkedIn status check and reject list (product track) → LinkedIn messages to people who accepted → find products → filter → research → test and find bugs → find the people (off LinkedIn) → one LinkedIn visit per new person → write emails and connection notes → review → Gmail drafts → save notes and product-track rows → commit.**
+Run order: **check old drafts, follow-ups and held teammates → LinkedIn status check and reject list (product track) → LinkedIn messages to people who accepted → find products → filter → research → test and find bugs → find the people (off LinkedIn) → one LinkedIn visit per new person → write emails and connection notes → review → Gmail drafts → save notes and product-track rows.**
 
 ## Step 0: Check earlier drafts and connection requests
 
@@ -472,15 +472,9 @@ Tell the user the order: **send the email first, then the connection request** w
 
 Follow-ups: one per person, only as in Step 0a, always as a draft the user sends. If someone asks not to be contacted, `$L set <email> withdrawn` and never email that company again.
 
-## Step 9: Commit and push
+## Step 9: Saved locally (nothing to push)
 
-```bash
-git add product-outreach/<me> linkedin/<me>/send-connection/linkedin-connections-by-product-outreach linkedin/<me>/reject-connection/linkedin-connections-by-product-outreach linkedin/<me>/follow-up/linkedin-connections-by-product-outreach
-git commit -m "<me>: product outreach: $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <N> products, <M> drafts, <K> connection notes (<product list>)"
-git push
-```
-
-Commit only `product-outreach/<me>/` and the product track's `linkedin/<me>/send-connection/`, `linkedin/<me>/reject-connection/` and `linkedin/<me>/follow-up/` folders.
+Everything this run made is saved in the person's own folders, which are git-ignored and stay on this machine. There is nothing to commit or push. End the report with where the files are.
 
 ## Report
 

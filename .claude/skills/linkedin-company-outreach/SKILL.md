@@ -146,7 +146,6 @@ $L followup skip <url>     # the user won't send it
 ```
 `add` checks the writing and refuses a second message to the same person on the same day. `convo` leaves out anyone with a message still waiting (`waiting_to_send`), so nobody gets two messages written for them. A message still unsent after 3 days is rewritten for the current state (or dropped), never sent stale.
 
-
 ## Step 3: Find targets
 
 ### 3a. Build the query bank from their files
@@ -270,15 +269,9 @@ Then the **messages due** from Step 2b: the path of today's follow-up file (`lin
 
 Then tell them: open each profile → **Connect** → **Add a note** → paste → **Send**. For messages: open the profile → **Message** → paste → **Send**. If they edit a note or skips someone, they can say so; update the row by running `$L set <url> not-sent` for skipped people. An edited note doesn't need changing in the CSV unless they ask. The next run's Step 1 confirms who was actually sent.
 
-## Step 7: Commit and push
+## Step 7: Saved locally (nothing to push)
 
-```bash
-git add linkedin/<me>/send-connection/linkedin-connections-by-company-jobs linkedin/<me>/reject-connection/linkedin-connections-by-company-jobs linkedin/<me>/messages/company linkedin/<me>/follow-up/linkedin-connections-by-company-jobs
-git commit -m "<me>: linkedin company: $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <N> prepared, <A> accepted, <R> rejected"
-git push
-```
-
-Commit only these folders. Leave unrelated working-tree changes alone.
+Everything this run made is saved in the person's own folders, which are git-ignored and stay on this machine. There is nothing to commit or push. End the report with where the files are.
 
 ## Report
 
@@ -288,4 +281,4 @@ Keep it short:
 - Reject list: path to today's reject file and the people in it, for the user to withdraw by hand.
 - From `$L stats`: accepted of sent, still pending, replied of accepted, calls or more.
 - Conversations: today's follow-up file and how many messages it holds, messages written earlier and still unsent, new replies, calls, interviews or offers.
-- Path to today's send file and the commit hash.
+- Path to today's send file (saved locally, not pushed).

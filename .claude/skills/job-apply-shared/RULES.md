@@ -45,7 +45,7 @@ Default target: **20 applications per run** (forms + drafts), or the number the 
 - **Browser.** All site work happens in the user's logged-in Chrome via Claude in Chrome (`claude --chrome` or `/chrome`). If browser tools aren't available, stop and say so.
 - **Browse like a person.** Follow [HUMAN-BROWSING.md](HUMAN-BROWSING.md) on every site: random waits and real reading time, a search and page budget per site per run, never two agents on the same site at once, no tricks to hide automation, and **stop using a site at its first challenge or rate limit**. The user's accounts matter more than any one run.
 - **Only applied jobs are saved** under `<folder>`: submitted forms, sent in-site applications, emails saved as Gmail drafts, and DMs the user confirms they sent. Jobs found but skipped or not submitted leave no files there. They're only mentioned in the chat report.
-- **Privacy.** Never write the user's postal address or phone number into any file under `apply/<me>/` (it's committed to the shared repo, which every collaborator can read). Write "(from address.txt)" / "(from phone.txt)" instead.
+- **Privacy.** Never write the user's postal address or phone number into any file under `apply/<me>/` (even though it's git-ignored and stays on this machine, it may be copied or shared later). Write "(from address.txt)" / "(from phone.txt)" instead.
 
 ## Sources of truth (read at the start of every run)
 
@@ -258,20 +258,14 @@ For each application actually made (submitted, sent in-site, email drafted, or D
    ```
    Forms, in-site applications and confirmed DMs use `status: applied`. Emails use `status: email-draft` until Step 0 of a later run finds them in Sent.
 
-## Step 9: Commit and push
+## Step 9: Saved locally (nothing to push)
 
-```bash
-git add <folder>
-git commit -m "<me>: apply (<source>): $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <N> applied (<company list>)"
-git push
-```
-
-Commit only `<folder>` (plus any file the skill names). Leave other changes alone.
+`<folder>` is git-ignored: each person's applications stay on their own machine. There is no commit for a run. Say in the report where the applications were saved. (Only shared skill or script edits are pushed, through the [git-push skill](../git-push/SKILL.md).)
 
 ## Report
 
 Short:
-- Applied: N of the target (company, title, country, pay, method, folder) and the commit hash.
+- Applied: N of the target (company, title, country, pay, method, folder).
 - **Email drafts waiting in Gmail Drafts**, and **DMs waiting for the user to send**.
 - Earlier drafts still not sent (Step 0).
 - Found but skipped, one line each with the reason (source-specific reasons, not worldwide remote, company country, pay, complex account, stack, scam, not approved).

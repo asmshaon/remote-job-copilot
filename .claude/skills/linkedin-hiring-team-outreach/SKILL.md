@@ -157,13 +157,9 @@ One numbered list: name, title, company, profile URL, the role they applied for 
 
 Then the **messages due** from Step 2b, one block per person: name, profile URL, which message it is, the message in a code block with its character count, and the date it should go out. For messages: profile → **Message** → paste → **Send**.
 
-## Step 8: Commit and push
+## Step 8: Saved locally (nothing to push)
 
-```bash
-git add linkedin/<me>/send-connection/linkedin-connections-by-hiring-team linkedin/<me>/reject-connection/linkedin-connections-by-hiring-team linkedin/<me>/messages/hiring linkedin/<me>/follow-up/linkedin-connections-by-hiring-team
-git commit -m "<me>: linkedin hiring team: $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <N> prepared, <A> accepted, <R> rejected"
-git push
-```
+Everything this run made is saved in the person's own folders, which are git-ignored and stay on this machine. There is nothing to commit or push. End the report with where the files are.
 
 ## Report
 

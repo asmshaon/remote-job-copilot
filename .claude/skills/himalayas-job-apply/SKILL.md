@@ -43,7 +43,7 @@ Himalayas links out to the company's ATS or careers page, so apply there (RULES 
 
 - `job-description.md` starts with the Himalayas URL, the company's own job URL, the posted date, the location restrictions and time zones exactly as listed, then the full description from the company's page.
 - Folder: **`apply/<me>/himalayas/<YYYY-MM-DD>/<company-name>/`**. Record with `$A add` and set `linkedin_url` to the Himalayas job URL.
-- Commit: `git add apply/<me>/himalayas` and use the message `<me>: apply (himalayas): <date time> — <N> applied (<companies>)`.
+- Saved locally: `apply/<me>/` is git-ignored, so nothing is committed or pushed.
 
 ## Report
 

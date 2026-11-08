@@ -135,9 +135,9 @@ This marks the picks `applied` and writes each into the shared ledger of its sou
 
 `skip <numbers> <reason>` → `$D skip <date> <rank> "<reason>"`. Skipped jobs aren't shown again for 60 days; the folder stays as a record.
 
-## Step 8: Commit
+## Step 8: Saved locally
 
-Last step, through the [git-push skill](../git-push/SKILL.md): stage `apply/<me>/daily/` and any `apply/<me>/*/applied.csv` this run changed. Message: `<me>: daily jobs: <YYYY-MM-DD HH:MM +ZZZZ> — <N> picks (<companies>)`, or `<me>: daily jobs: applied <companies>` for Step 7.
+`apply/<me>/` is git-ignored, so nothing is committed. End the report with where the packs are (`apply/<me>/daily/<date>/`).
 
 ## Weekly rhythm (tips for the user, not rules)
 

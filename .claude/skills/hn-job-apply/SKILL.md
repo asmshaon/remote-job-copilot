@@ -49,7 +49,7 @@ F="python .claude/skills/job-apply-shared/scripts/fetch_jobs.py"
 ## Changed Steps 8 and 9
 
 - Folder: **`apply/<me>/hackernews/<YYYY-MM-DD>/<company-name>/`**. Record with `$A add` and set `linkedin_url` to the HN comment URL.
-- Commit: `git add apply/<me>/hackernews` and use the message `<me>: apply (hn): <date time> — <N> applied (<companies>)` (date via `me.py stamp`).
+- Saved locally: `apply/<me>/` is git-ignored, so nothing is committed or pushed.
 
 ## Report
 

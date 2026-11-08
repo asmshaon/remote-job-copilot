@@ -235,15 +235,9 @@ Then tell them: open each profile → **Connect** → **Add a note** → paste �
 
 Then the **messages due** from Step 2b, one block per person: name, profile URL, which message it is (message 1, follow-up, answer, call offer, check-in), the message in a code block with its character count, and the date it should go out. For messages: profile → **Message** → paste → **Send**. Claude never sends.
 
-## Step 7: Commit and push
+## Step 7: Saved locally (nothing to push)
 
-```bash
-git add linkedin/<me>/send-connection/linkedin-connection-by-client-projects linkedin/<me>/reject-connection/linkedin-connection-by-client-projects linkedin/<me>/messages/client linkedin/<me>/follow-up/linkedin-connection-by-client-projects
-git commit -m "<me>: linkedin client: $(python .claude/skills/job-apply-shared/scripts/me.py stamp) — <N> prepared, <A> accepted, <R> rejected"
-git push
-```
-
-Commit only these folders. Leave unrelated working-tree changes alone.
+Everything this run made is saved in the person's own folders, which are git-ignored and stay on this machine. There is nothing to commit or push. End the report with where the files are.
 
 ## Report
 
@@ -253,4 +247,4 @@ Keep it short:
 - Reject list: path to today's reject file and the people in it, for the user to withdraw by hand.
 - From `$L stats`: accepted of sent and still pending, plus which services accept best (niche signal for their future company).
 - Conversations: messages due today (Step 2b), new replies, calls, proposals and projects won.
-- Path to today's send file and the commit hash.
+- Path to today's send file (saved locally, not pushed).

@@ -102,4 +102,4 @@ Only those two paths.
 - Applied or not, and how (form submitted / email draft waiting / in-site sent / DM for them to send).
 - The check table from Step 2, and whether they chose to override anything.
 - Resume keyword coverage and gaps (from `report.md`).
-- Folder path and commit hash.
+- Folder path (saved locally, not pushed).
