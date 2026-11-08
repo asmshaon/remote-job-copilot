@@ -1,6 +1,6 @@
 ---
 name: custom-resume
-description: Build a one-page resume for the person in `.me` tailored to one job post, in the shared resume layout, from their own files in skillsets-and-contributions/<me>/. Reads the job post first, then their career accomplishments, skill set, resume and resume-base.json. Header, contact, role/company/location/date lines, projects, additional experience, education and skills categories stay fixed; only the highlight bullets under each job, the featured project descriptions, and the items inside the fixed skills categories change to match the job description. Text must read human-written (no AI-sounding words) and be ATS friendly. Saves the PDF, the job post and a match report in apply/<me>/<YYYY-MM-DD>/<company-name>/. Use when the user says "custom resume", "tailor my resume", "resume for this job", or pastes a job post / job URL and asks for a resume.
+description: Build a one-page resume for the person in `.me` tailored to one job post, in their chosen resume style (profile.json resume_style - classic keeps their own resume layout, modern builds a clean one-page summary, experience and skills page), from their own files in skillsets-and-contributions/<me>/. Reads the job post first, then their career accomplishments, skill set, resume and resume-base.json. Header, contact, role/company/location/date lines, projects, additional experience, education and skills categories stay fixed; only the highlight bullets under each job, the featured project descriptions, and the items inside the fixed skills categories change to match the job description. Text must read human-written (no AI-sounding words) and be ATS friendly. Saves the PDF, the job post and a match report in apply/<me>/<YYYY-MM-DD>/<company-name>/. Use when the user says "custom resume", "tailor my resume", "resume for this job", or pastes a job post / job URL and asks for a resume.
 ---
 
 # Custom Resume
@@ -9,7 +9,47 @@ Trigger: **`custom resume`** plus a job post (pasted text, a URL, or a file path
 
 **Whose resume.** `<me>` is the person in `.me` (`python .claude/skills/job-apply-shared/scripts/me.py`). Everything below reads only their folder, `skillsets-and-contributions/<me>/`, and saves only under `apply/<me>/`. If `me.py check` reports a missing `resume/resume-base.json`, run the `profile-setup` skill first.
 
-## What stays fixed and what changes
+## Resume style: read it first
+
+Each person picks a style in profile.json `resume_style`. Every caller (job-apply skills, daily jobs, apply-job-link, the job-resume-builder agent) runs the same build command, and the script follows the person's style:
+
+| `resume_style` | What it is | Steps to follow |
+|---|---|---|
+| `classic` (default) | their own resume layout, kept fixed (`resume-base.json`); only bullets, project text and skills items change | Steps 1 to 7 as written below |
+| `modern` | a clean one-page resume built fresh for each job: tagline, 3 to 4 sentence career summary, experience, 6-category skills grid; black, white and gray only | Steps 1, 2, then **"Modern style"** below, then Steps 6 and 7 |
+
+Both styles also read `skillsets-and-contributions/<me>/resume/resume-guide.md` when it exists: the person's own rules for positioning, tone, what to keep in the background and the shape of the page. Follow it on top of everything here. When it conflicts with this page, the guide wins, except for Truth only (never invent anything).
+
+## Modern style (when `resume_style` is `modern`)
+
+Facts, numbers and technologies come only from their accomplishments (every file in `contributions/`, including any detailed project inventory PDF: read it with `pdftotext -layout`) and their skill set. Name and contact links come from profile.json and are drawn by the script.
+
+1. From the post (Step 2), pick the 3 to 5 things the employer cares about most.
+2. Write `content.json`:
+   ```json
+   {
+     "style": "modern",
+     "job": {"company": "...", "title": "...", "url": "..."},
+     "keywords": ["..."],
+     "page": "Letter",
+     "tagline": "Senior Backend Engineer · Payments and APIs",
+     "summary": "3 to 4 sentences: years in the industry, new and existing systems, business needs turned into production software.",
+     "jobs": [{"company": "...", "role": "...", "dates": "May 2026 – Present · Remote",
+               "ctx": "optional one-line context", "bullets": ["...", "..."]}],
+     "earlier": ["2009 to 2015", "one short paragraph for older roles"],
+     "skills": [["Frontend:", ["React", "Next.js", "TypeScript"]], ["Backend:", ["Node.js", "Laravel"]]]
+   }
+   ```
+   - `page`: `Letter` for US and Canada companies, `A4` for everyone else (default: profile.json `resume_page`).
+   - Tagline on one line. No physical location anywhere; dates end with `· Remote`.
+   - Most relevant roles get 3 to 5 bullets, others 1 to 2. Each bullet is one contribution: the situation or problem, what they did, what changed, with real numbers. Bullets follow Step 4's human-writing rules (the build lints them).
+   - Skills: 4 to 8 categories (6 fills the grid best), 3 to 4 items each, only what they really have. Mark personal-only skills as personal.
+3. Build with the same command as Step 5. The script refuses (and writes no PDF) when the page is longer than one page, when **more than 24pt is empty at the bottom**, when a bullet ends with one word alone on its last line, or when the text fails the lint.
+   - **Bottom gap too big:** add real content, best first: bullets that answer the job's top needs, numbers from the accomplishments, a context line for a role, an extra relevant role, a fuller Earlier Experience line. A line is about 12pt. Never enlarge fonts or spacing.
+   - **Two pages:** cut or merge bullets. Never shrink anything.
+4. Then Step 6 (look at it) and Step 7 (report).
+
+## What stays fixed and what changes (classic style)
 
 | Part | Rule |
 |---|---|
@@ -33,6 +73,7 @@ Fixed content lives in `skillsets-and-contributions/<me>/resume/resume-base.json
 3. Skill set (`skillsets-and-contributions/<me>/skills/my-skill-set.md`). What they can honestly claim.
 4. Current resume (`skillsets-and-contributions/<me>/resume/<resume_file>`, the file named in profile.json) and `resume-base.json`. The format and the fixed text.
 5. `proof-map.md` section 4: which projects each job may draw from, and projects with no job slot.
+6. `resume/resume-guide.md`, when it exists: their own rules for positioning, tone and shape.
 
 Never invent a project, number, tool or result. If the job post asks for something they haven't done, it goes in the gap list in the report, never on the resume.
 
@@ -150,7 +191,7 @@ python .claude/skills/custom-resume/scripts/build_resume.py apply/<me>/<date>/<c
 
 ## Step 6: Check it
 
-1. Open the PDF with the Read tool and look at it: one page, nothing cut off, layout the same as the base resume (`build_resume.py --base <scratchpad>/base.pdf` to compare).
+1. Open the PDF with the Read tool and look at it: one page, nothing cut off. Classic: the layout matches the base resume (`build_resume.py --base <scratchpad>/base.pdf` to compare). Modern: header on one line, no empty band at the bottom.
 2. Reread every bullet and project description as a hiring manager would. If one sounds like marketing copy, takes two reads to understand, or could have been written by anyone, rewrite it in easier words.
 3. Confirm every fact traces to the accomplishments.
 

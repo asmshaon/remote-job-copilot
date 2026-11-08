@@ -135,7 +135,7 @@ Save the full post there as `job-description.md`, with the company, title, sourc
 
 ## Step 4: Build the tailored resume
 
-Follow the [custom-resume skill](../custom-resume/SKILL.md) Steps 2–6 exactly (analyze the post, pick accomplishments, write bullets, tailor the featured project text and the skills items, build, check the PDF visually). Bullets and the project text follow [HUMAN-WRITING.md](HUMAN-WRITING.md) like every other text they send. The only change is the output folder, which is the staging folder:
+Follow the [custom-resume skill](../custom-resume/SKILL.md) in the person's resume style (read its "Resume style" section first: `classic` = Steps 2–6, `modern` = its "Modern style" section) and their `resume/resume-guide.md` when present. For classic, follow Steps 2–6 exactly (analyze the post, pick accomplishments, write bullets, tailor the featured project text and the skills items, build, check the PDF visually). Bullets and the project text follow [HUMAN-WRITING.md](HUMAN-WRITING.md) like every other text they send. The only change is the output folder, which is the staging folder:
 
 ```bash
 python .claude/skills/custom-resume/scripts/build_resume.py <staging>/content.json <staging>/<resume_file>

@@ -63,10 +63,15 @@ Ask in **one** message for what the files can't tell, with the template's value 
 - pay range per month and currency (`pay.min_month`, `pay.max_month`), and anything like "never below X"
 - remote rule (worldwide only? regions they can work for?), `company_countries`, `outreach_countries`, `blocked_countries`, `easy_time_zones`
 - LinkedIn numbers per day (`linkedin_daily`), weekly cap (keep it at 90 or less: LinkedIn's limit is about 100 a week), product outreach drafts per day
+- **resume style** (`resume_style`): `classic` keeps their own resume's content layout and only changes bullets, project text and skills per job. `modern` builds a clean one-page resume per job (tagline, 3 to 4 sentence summary, experience, 6-category skills grid, black/white/gray), and needs `pip install -r requirements.txt` (Playwright). Default page size `resume_page` (`A4`, or `Letter` if most target companies are in the US/Canada)
+- any rules for how their resume should read (positioning, tone, what to keep in the background, spelling). These go in `resume/resume-guide.md` (Step 5b)
+- optional daily-jobs filters: company size (`company_size.min_employees`/`max_employees`), a quality bar (`quality_bar`), realism (`realism.max_hard_gaps`), and how old a post may be (`freshness_days`)
 
 Set `slug` to the folder name and `resume_file` to the resume's file name.
 
-## Step 5: resume-base.json
+## Step 5: resume-base.json (classic style only)
+
+Skip this step when `resume_style` is `modern`: that style builds every resume fresh from their accomplishments, so it has no fixed base. (`me.py check` only asks for `resume-base.json` in the classic style.)
 
 Copy the **fixed parts of their resume exactly** into `resume/resume-base.json`, in the template's shape:
 - `name` (as printed), `designation`, `contact` (up to 4 rows: label, text, url)
@@ -81,6 +86,12 @@ python .claude/skills/custom-resume/scripts/build_resume.py --base <scratchpad>/
 ```
 
 Open the PDF (Read tool): one page, every fixed line the same as their resume, nothing cut off. If it overflows, show them and agree on what to shorten in their base. Never cut a job or a date on your own.
+
+## Step 5b: resume-guide.md (optional, both styles)
+
+If they gave rules for how their resume should read, write them into `resume/resume-guide.md`, starting from the template's sections (Sources, Positioning, Things to keep in the background, Writing, Shape). Use their own words. Leave the file out when they have no rules; the defaults then apply.
+
+For the modern style, build one sample resume from a real job post they like (custom-resume "Modern style") and show it, so they can adjust the guide before the first real run.
 
 ## Step 6: proof-map.md
 
@@ -97,7 +108,7 @@ Fill what the files say (name, preferred name, email, links, current title and c
 ## Step 8: Check and show
 
 1. `$M check` must print `ready: <slug>`. Fix anything it lists (or tell them which file is still missing).
-2. Show them, briefly: the profile.json settings, the jobs and bullet ranges in resume-base.json, the proof-map rows, the base resume PDF path, and every `ASK` left.
+2. Show them, briefly: the profile.json settings, their resume style (classic: the jobs and bullet ranges in resume-base.json and the base resume PDF path; modern: the sample resume and their resume-guide.md), the proof-map rows, and every `ASK` left.
 3. Remind them that their folder (except address and phone) is visible to everyone with access to the repo.
 
 ## Step 9: Commit and push

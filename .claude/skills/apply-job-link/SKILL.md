@@ -49,7 +49,7 @@ Staging folder: `<scratchpad>/direct/<company-name>/`. Save `job-description.md`
 
 ## Step 4: Build the tailored resume
 
-custom-resume Steps 2–6 into the staging folder (bullets, featured project text, skills items, build, check the PDF visually):
+custom-resume in the person's resume style (its "Resume style" section: classic Steps 2–6, or modern) plus their `resume/resume-guide.md`, into the staging folder (write the content, build, check the PDF visually):
 ```bash
 python .claude/skills/custom-resume/scripts/build_resume.py <staging>/content.json <staging>/<resume_file>
 ```

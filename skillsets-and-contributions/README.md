@@ -7,13 +7,15 @@ skillsets-and-contributions/
   _template/                   copy this to start (or say "profile setup" in Claude Code)
   <your-slug>/                 e.g. jane-doe (lowercase, hyphens)
     profile.json               who you are and your job-hunt settings: role, stack, home country, time zone,
-                               pay range, target countries, LinkedIn daily numbers, job-search words
+                               pay range, target countries, LinkedIn daily numbers, job-search words,
+                               resume style (classic or modern). See the main README, section 4
     profile-answers.md         saved answers for application forms (filled in as forms ask)
     proof-map.md               your real work mapped to searches, outreach services and offers
     contributions/             your career accomplishments (PDF or .md): projects, systems, real numbers
     skills/my-skill-set.md     what you can honestly claim
     resume/<Your_Name>.pdf     your current resume (file name = profile.json "resume_file")
-    resume/resume-base.json    the fixed parts of that resume, for the tailored resume builder
+    resume/resume-base.json    the fixed parts of that resume (only for resume_style "classic")
+    resume/resume-guide.md     optional: your own rules for how your resumes read (both styles)
     profile-picture/           your photo (profile.jpg), used only when a form asks
     product-directories/       your list of startup and product directories (for product outreach)
     others/address/address.txt your postal address   } never committed (.gitignore),

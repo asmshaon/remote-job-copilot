@@ -18,6 +18,9 @@
   "years_experience": 5,
   "experience_since": "2021-01",
   "resume_file": "Jane_Doe.pdf",
+  "_resume_style": "classic = your resume's own layout, kept fixed (resume/resume-base.json), only bullets, project text and skills change. modern = a clean one-page summary, experience and skills grid, built fresh for each job (needs: pip install -r requirements.txt).",
+  "resume_style": "classic",
+  "resume_page": "A4",
 
   "_target_roles": "Job titles to search for, most important first.",
   "target_roles": ["Senior Backend Engineer", "Backend Engineer", "Node.js Developer", "Full Stack Engineer"],

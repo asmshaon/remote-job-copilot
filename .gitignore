@@ -10,3 +10,6 @@ skillsets-and-contributions/*/others/contacts/*
 # personal Claude Code settings
 .claude/settings.local.json
 CLAUDE.local.md
+
+# local Python packages (pip install -r requirements.txt into .venv)
+.venv/

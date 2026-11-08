@@ -1,0 +1,5 @@
+# Python packages the shared scripts need. Install once:  pip install -r requirements.txt
+reportlab      # classic resume style (build_resume.py)
+pypdf          # page checks and ATS text for both resume styles
+pillow         # Upwork thumbnails
+playwright     # modern resume style (build_modern.py); then run:  python -m playwright install chromium

@@ -322,6 +322,23 @@ def main():
         sys.exit("REWRITE: " + "; ".join(problems)) if problems else print("ok")
         return
 
+    # The person picks their resume style in profile.json ("classic" = this layout, "modern" = build_modern.py).
+    # A content file can also say "style": "modern" itself.
+    style = me.profile().get("resume_style", "classic")
+    if args[0] != "--base":
+        try:
+            c = json.loads(Path(args[0]).read_text(encoding="utf-8"))
+            # the content's own shape wins: "experience" = classic, "jobs" = modern
+            style = c.get("style") or ("classic" if "experience" in c else "modern" if "jobs" in c else style)
+        except (OSError, ValueError):
+            pass
+    if style == "modern":
+        if args[0] == "--base":
+            sys.exit("The modern style has no fixed base resume. Build one from a content file instead.")
+        import build_modern
+        build_modern.main(args[:2])
+        return
+
     base = json.loads(me.resume_base_path().read_text(encoding="utf-8"))
     if args[0] == "--base":
         content, out = {"experience": {}, "keywords": []}, Path(args[1])

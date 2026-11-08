@@ -176,6 +176,28 @@ def paths():
     }
 
 
+def tool_problems(style):
+    """Python packages the shared scripts need (requirements.txt), in this Python or the repo's .venv."""
+    import importlib.util
+    import shutil
+    import subprocess
+    need = ["pypdf", "reportlab"] + (["playwright"] if style == "modern" else [])
+    missing = [m for m in need if importlib.util.find_spec(m) is None]
+    venv = next((ROOT / r for r in (".venv/bin/python", ".venv/Scripts/python.exe") if (ROOT / r).exists()), None)
+    if missing and venv:
+        code = "import importlib.util,sys; sys.exit(any(importlib.util.find_spec(m) is None for m in sys.argv[1:]))"
+        if subprocess.run([str(venv), "-c", code, *missing]).returncode == 0:
+            missing = []
+    out = []
+    if missing:
+        out.append(f"Python packages missing: {', '.join(missing)} (run: pip install -r requirements.txt, "
+                   f"or in a .venv at the repo root)")
+    if style == "modern" and not shutil.which("pdftotext"):
+        out.append("pdftotext missing (modern resume checks): install poppler-utils (Linux), poppler (macOS) "
+                   "or Poppler for Windows")
+    return out
+
+
 def check():
     p, d, problems = profile(), person_dir(), []
     problems += [f"profile.json: '{k}' is missing" for k in REQUIRED if p.get(k) in (None, "", [], {})]
@@ -190,9 +212,16 @@ def check():
                        ("product_directories", "product-directories/")):
         if not paths()[key]:
             problems.append(f"nothing in {label}")
-    for name in ("profile-answers.md", "proof-map.md", "resume/resume-base.json", f"resume/{p.get('resume_file', '?')}"):
+    style = p.get("resume_style", "classic")
+    if style not in ("classic", "modern"):
+        problems.append(f"profile.json: resume_style is '{style}', use 'classic' or 'modern'")
+    needed = ["profile-answers.md", "proof-map.md", f"resume/{p.get('resume_file', '?')}"]
+    if style == "classic":
+        needed.append("resume/resume-base.json")
+    for name in needed:
         if not (d / name).exists():
             problems.append(f"missing {name}")
+    problems += tool_problems(style)
     for name in ("others/address/address.txt", "others/contacts/phone.txt"):
         if not (d / name).exists():
             problems.append(f"missing {name} (only needed when a form asks; never committed)")

@@ -100,7 +100,7 @@ Folder: `apply/<me>/daily/<YYYY-MM-DD>/<NN>-<company-slug>/` (NN = rank, 01 to 0
 
 1. **`job-description.md`:** title, company, where it was found, the company's own job URL and apply URL, posted date, the full post text, the **quoted remote sentence**, and a **Pay** section (posted or estimated, with sources).
 2. **`company.md`:** RULES Step 5 notes (description, domain, culture, job description match with real numbers, one sincere thing to praise), plus the solid-company table with scores and sources, HQ country, size, funding, and the hiring manager's or founder's name if shown.
-3. **Tailored resume:** [custom-resume skill](../custom-resume/SKILL.md) Steps 2 to 6, built into this folder:
+3. **Tailored resume:** [custom-resume skill](../custom-resume/SKILL.md) in the person's resume style (its "Resume style" section: classic Steps 2 to 6, or modern), plus their `resume/resume-guide.md` when present, built into this folder:
    ```bash
    python .claude/skills/custom-resume/scripts/build_resume.py <folder>/content.json <folder>/<resume_file>
    ```
