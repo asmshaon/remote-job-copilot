@@ -1,4 +1,4 @@
-# Job Hunting Automation
+# Remote Job Copilot
 
 Claude Code skills that help you find remote jobs and apply to them.
 
@@ -59,4 +59,4 @@ Your results are saved in `apply/<your-name>/`.
 The [full guide](GUIDE.md) covers every command, your settings, resume styles, working as a team,
 and fixes for common problems.
 
-A public copy of the tool is at https://github.com/asmshaon/job-finder-enginners.
+A public copy of the tool is at https://github.com/asmshaon/remote-job-copilot.

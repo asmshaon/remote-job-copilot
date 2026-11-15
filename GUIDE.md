@@ -22,11 +22,11 @@ You also need your own LinkedIn and Gmail accounts, logged in inside that Chrome
 
 ```bash
 git clone <repo url>
-cd <repo name>        # the folder the clone just made, e.g. job-finder-enginners
+cd <repo name>        # the folder the clone just made, e.g. remote-job-copilot
 ```
 
 Use the URL of the repo you were given. A public copy of the tool is at
-https://github.com/asmshaon/job-finder-enginners.
+https://github.com/asmshaon/remote-job-copilot.
 
 ### 2.2 Install the Python packages
 
