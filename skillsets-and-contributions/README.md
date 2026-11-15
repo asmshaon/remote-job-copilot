@@ -15,7 +15,8 @@ skillsets-and-contributions/
     skills/my-skill-set.md     what you can honestly claim
     resume/<Your_Name>.pdf     your current resume (file name = profile.json "resume_file")
     resume/resume-base.json    the fixed parts of that resume (only for resume_style "classic")
-    resume/resume-guide.md     optional: your own rules for how your resumes read (both styles)
+    resume/resume-guide.md     your own rules for how your resumes read (both styles); its Intro
+                               section keeps your LinkedIn and website voice for the modern style
     profile-picture/           your photo (profile.jpg), used only when a form asks
     product-directories/       your list of startup and product directories (for product outreach)
     others/address/address.txt your postal address   } only read when a form asks

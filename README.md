@@ -100,6 +100,14 @@ Optional: `resume/resume-guide.md` holds **your own rules** for how your resume 
 tone, spelling, what to keep in the background (for example "DevOps only as a supporting skill"). Every
 resume follows it. Copy the template's example and edit it.
 
+**The intro sounds like you (modern style).** The tagline and career summary at the top are written from
+your own LinkedIn headline and About, your website (`linkedin` and `portfolio` in profile.json) and the
+**Intro** section of your resume guide. Your title, your own phrases and how you like to work are
+matched to each job's top needs. Facts still come only from your files: a number that is on your
+LinkedIn but not in `contributions/` stays off the resume until you add it there. Profile setup saves a
+short snapshot of your own phrases in the guide, used when LinkedIn can't be read. Keep the tagline to
+about 60 characters: it never wraps, and a longer one makes the whole page print smaller.
+
 ## 3. Everyday use
 
 Open the repo in Claude Code (`claude --chrome`) and type one of these:
@@ -138,7 +146,7 @@ Everything personal lives in `skillsets-and-contributions/<your-slug>/profile.js
 
 | Key | What it controls |
 |---|---|
-| `full_name`, `email`, `linkedin`, `github`, `portfolio` | your name and links on resumes and forms |
+| `full_name`, `email`, `linkedin`, `github`, `portfolio` | your name and links on resumes and forms. `linkedin` and `portfolio` are also read to write your resume intro in your own voice |
 | `home_country`, `city`, `utc_offset`, `timezone_label` | which "remote" jobs are open to you, and time-zone checks |
 | `target_roles`, `seniority` | the job titles searched, and what level to skip |
 | `stack` (`fit`, `skip`, `terms`) | which tech stacks fit you and which roles to skip |
@@ -161,7 +169,7 @@ Your other files in the same folder:
 | `skills/my-skill-set.md` | what you can honestly claim |
 | `proof-map.md` | your real work mapped to searches, services and offers (built by profile setup) |
 | `profile-answers.md` | saved answers for application forms; `ASK` items are asked once, then saved |
-| `resume/` | your resume PDF, `resume-base.json` (classic) and the optional `resume-guide.md` |
+| `resume/` | your resume PDF, `resume-base.json` (classic) and `resume-guide.md` (your rules, including the Intro section for the modern style) |
 | `others/address/`, `others/contacts/` | address and phone, only read when a form asks |
 
 The whole folder is git-ignored: it stays on your machine.
@@ -191,6 +199,23 @@ Your folders live only on your computer. To keep a copy or use another machine, 
   ```
   (do the same for `apply/<slug>/` if you want your results backed up). The main repo ignores these.
 
+### Publishing your own copy of the tool
+
+Personal folders were tracked before they became git-ignored, so **old commits in this repo still hold
+personal files** (resumes, profiles, job packs). Never push this history to a public repo as it is.
+Push a filtered copy instead, made in a separate clone with
+[git filter-repo](https://github.com/newren/git-filter-repo), so your working repo is never rewritten:
+
+```bash
+git clone --no-local . /tmp/tool-copy && cd /tmp/tool-copy
+git filter-repo --invert-paths \
+  --path-regex '^skillsets-and-contributions/(?!_template/)[^/]+/' --path-regex '^apply/[^/]+/' \
+  --path-regex '^linkedin/(?!scripts/)[^/]+/' --path-regex '^product-outreach/[^/]+/' \
+  --path-regex '^upwork/[^/]+/' --path .me
+git log --format=%B | less     # commit messages can name people, pay or companies: check them too
+git remote add public <your repo> && git push public main
+```
+
 ## 6. Safety rules built into every skill
 
 - Nothing is sent by Claude: emails become Gmail drafts, LinkedIn notes and DMs are text for you to send.
@@ -207,6 +232,7 @@ Your folders live only on your computer. To keep a copy or use another machine, 
 | `Python packages missing` | `pip install -r requirements.txt`, or the `.venv` steps in 2.2 |
 | `NOT BUILT: ... needs Playwright` / `no Chromium found` | `.venv/bin/python -m playwright install chromium` |
 | `NOT BUILT` with a list of bullets | the resume text broke a writing rule (AI-sounding word, a sentence over 30 words, a single word alone on the last line, too much or too little on the page). Claude fixes these itself; if you edit by hand, fix what it lists |
+| `NOT BUILT: tagline too long ... prints at 88%` | the modern resume's tagline is too wide for one line, so the whole page would print smaller. Shorten it to about 60 characters (Claude does this itself) |
 | Browser tools don't respond | `/chrome` in the session to reconnect; make sure you're logged in to the site in that Chrome |
 | `daily jobs` finds 0 jobs | your filters may be strict. Loosen `company_size`, `quality_bar`, `freshness_days` or `pay.min_month`, or run again tomorrow (each weekday searches different sources) |
 | Push rejected (shared changes) | `git pull --rebase origin main`, then push again |
