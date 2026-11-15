@@ -8,7 +8,7 @@ skillsets-and-contributions/
   <your-slug>/                 e.g. jane-doe (lowercase, hyphens)
     profile.json               who you are and your job-hunt settings: role, stack, home country, time zone,
                                pay range, target countries, LinkedIn daily numbers, job-search words,
-                               resume style (classic or modern). See the main README, section 4
+                               resume style (classic or modern). See GUIDE.md, section 4
     profile-answers.md         saved answers for application forms (filled in as forms ask)
     proof-map.md               your real work mapped to searches, outreach services and offers
     contributions/             your career accomplishments (PDF or .md): projects, systems, real numbers
@@ -40,4 +40,4 @@ and `upwork/<slug>/`.
 - Your folder (and your `apply/`, `linkedin/`, `product-outreach/`, `upwork/` folders) is **git-ignored**.
   It is never pushed, so change anything in it without affecting anyone else, and pulls never overwrite it.
 - Only `_template/` and this README are shared. Improve them for everyone only after agreeing on it.
-- Back it up yourself (copy it, or make it its own private git repo). See the main README, "Back up your own data".
+- Back it up yourself (copy it, or make it its own private git repo). See GUIDE.md, "Back up your own data".

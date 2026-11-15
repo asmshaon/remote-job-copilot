@@ -20,7 +20,7 @@ $M paths          # every file the skills will read for this person
 
 - **Their files only.** Every fact in profile.json, resume-base.json, proof-map.md and profile-answers.md comes from the files they give or their answers in chat. Never copy anything from another person's folder or from `_template`'s example values. Never guess a country, pay figure, number or skill.
 - **Never touch another person's folder.** Not to read it as an example, and not to "fix" it.
-- **Privacy.** Their whole folder is git-ignored and stays on this machine. It is never pushed, so nobody else sees it and nobody else's setup can overwrite it. Tell them to back it up themselves if they want a copy elsewhere (see README, "Back up your own data").
+- **Privacy.** Their whole folder is git-ignored and stays on this machine. It is never pushed, so nobody else sees it and nobody else's setup can overwrite it. Tell them to back it up themselves if they want a copy elsewhere (see GUIDE.md, "Back up your own data").
 - **Human writing.** Any text that ends up in front of other people later (resume lines, profile summary) follows [HUMAN-WRITING.md](../job-apply-shared/HUMAN-WRITING.md).
 
 ## Step 1: Who is this

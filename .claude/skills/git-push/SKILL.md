@@ -15,7 +15,7 @@ Each person's folders are **git-ignored** (see `.gitignore`): `skillsets-and-con
 
 - When a skill's commit step names only personal paths, there is nothing to push. Say "saved locally in <folder> (personal, not pushed)" and stop.
 - **Never** `git add -f` a personal path, and never edit `.gitignore` to let one in.
-- Only shared files are committed: `.claude/`, `linkedin/scripts/`, `CLAUDE.md`, `README.md`, `requirements.txt`, `.gitignore`, `notes/`, `skillsets-and-contributions/_template/` and `skillsets-and-contributions/README.md`. They change only when the task was a skill, script or doc edit the user asked for. Say in the commit body that it changes the workflow for everyone.
+- Only shared files are committed: `.claude/`, `linkedin/scripts/`, `CLAUDE.md`, `README.md`, `GUIDE.md`, `requirements.txt`, `.gitignore`, `notes/`, `skillsets-and-contributions/_template/` and `skillsets-and-contributions/README.md`. They change only when the task was a skill, script or doc edit the user asked for. Say in the commit body that it changes the workflow for everyone.
 
 ## When not to push
 
