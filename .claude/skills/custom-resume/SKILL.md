@@ -25,6 +25,7 @@ Both styles also read `skillsets-and-contributions/<me>/resume/resume-guide.md` 
 Facts, numbers and technologies come only from their accomplishments (every file in `contributions/`, including any detailed project inventory PDF: read it with `pdftotext -layout`) and their skill set. Name and contact links come from profile.json and are drawn by the script.
 
 1. From the post (Step 2), pick the 3 to 5 things the employer cares about most.
+1a. Write the intro (tagline and summary) following **"The intro"** below. It is the first thing a reader sees, so it gets the most care.
 2. Write `content.json`:
    ```json
    {
@@ -41,13 +42,39 @@ Facts, numbers and technologies come only from their accomplishments (every file
    }
    ```
    - `page`: `Letter` for US and Canada companies, `A4` for everyone else (default: profile.json `resume_page`).
-   - Tagline on one line. No physical location anywhere; dates end with `· Remote`.
+   - Tagline on one line, about 60 characters at most. It never wraps: a longer one makes the whole page print smaller, and the build refuses it. No physical location anywhere; dates end with `· Remote`.
    - Most relevant roles get 3 to 5 bullets, others 1 to 2. Each bullet is one contribution: the situation or problem, what they did, what changed, with real numbers. Bullets follow Step 4's human-writing rules (the build lints them).
    - Skills: 4 to 8 categories (6 fills the grid best), 3 to 4 items each, only what they really have. Mark personal-only skills as personal.
 3. Build with the same command as Step 5. The script refuses (and writes no PDF) when the page is longer than one page, when **more than 24pt is empty at the bottom**, when a bullet ends with one word alone on its last line, or when the text fails the lint.
    - **Bottom gap too big:** add real content, best first: bullets that answer the job's top needs, numbers from the accomplishments, a context line for a role, an extra relevant role, a fuller Earlier Experience line. A line is about 12pt. Never enlarge fonts or spacing.
    - **Two pages:** cut or merge bullets. Never shrink anything.
 4. Then Step 6 (look at it) and Step 7 (report).
+
+## The intro: tagline and career summary (modern style)
+
+The intro should sound like the person's own public profile, not a generic summary, and answer this job.
+If their `resume/resume-guide.md` has an **Intro** section, follow it first: it wins over everything here.
+
+1. **Read their own voice.** Their LinkedIn headline and About (profile.json `linkedin`) and their website
+   home page (profile.json `portfolio`), plus profile.json `headline` and `summary`. Fetch the website
+   (WebFetch or curl). LinkedIn needs a login: read it with the browser tools only when the session has
+   them, read-only, and close the tab. When a page can't be read, use the phrase snapshot in their guide's
+   Intro section. If there is neither, use profile.json and the accomplishments alone and say so in the report.
+2. **Consider all of these together**, then write:
+   - their positioning and the title they use for themselves (LinkedIn headline)
+   - their own phrases and tone (reuse their words, never copy whole sentences from the web pages)
+   - years in software, from the accomplishments
+   - the domains they know that fit this job
+   - how they work (ownership, end to end, staying with it after launch, and so on, as they describe it)
+   - the job's top 1 or 2 needs, answered with their real work
+   - the job-title keyword (Full-Stack, Backend...). Put it in the tagline or the first summary sentence
+   - anything their guide asks for (an AI line, a leadership line...)
+3. **Tagline:** their own title plus this job's top stack or domain, about 60 characters at most.
+4. **Summary:** 3 to 4 sentences, each under 30 words, business-focused, not a list of tools. Unless the
+   guide sets another order: who they are (title, years, domains), how they work, why this job, then one
+   extra line from the guide.
+5. **Facts still come only from the accomplishments.** A number that appears on their LinkedIn or website but
+   not in `contributions/` stays off the resume. List it in the report so they can add it to their files.
 
 ## What stays fixed and what changes (classic style)
 
@@ -199,6 +226,7 @@ python .claude/skills/custom-resume/scripts/build_resume.py apply/<me>/<date>/<c
 
 Write `apply/<me>/<date>/<company-name>/report.md` and give the user the same summary in chat:
 - Job: company, title, link.
+- Intro (modern style): which sources the tagline and summary came from (LinkedIn, website, guide snapshot), and any public-profile numbers left out because they are not in the accomplishments.
 - Keyword coverage: present x/y, and the missing ones split into **gap** (they don't have it) and **left out** (they have it but there was no room).
 - What changed per job: which accomplishments were chosen and why, in one line each.
 - Projects: which angle each description now shows, and why.

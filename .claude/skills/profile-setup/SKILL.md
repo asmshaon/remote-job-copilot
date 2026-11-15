@@ -89,7 +89,9 @@ Open the PDF (Read tool): one page, every fixed line the same as their resume, n
 
 ## Step 5b: resume-guide.md (optional, both styles)
 
-If they gave rules for how their resume should read, write them into `resume/resume-guide.md`, starting from the template's sections (Sources, Positioning, Things to keep in the background, Writing, Shape). Use their own words. Leave the file out when they have no rules; the defaults then apply.
+If they gave rules for how their resume should read, write them into `resume/resume-guide.md`, starting from the template's sections (Sources, Positioning, Things to keep in the background, Intro, Writing, Shape). Use their own words. Leave the file out when they have no rules; the defaults then apply.
+
+For the modern style, always write the guide's **Intro** section, even with no other rules. Read their LinkedIn headline and About (read-only, browser tools if the session has them) and their website home page. Fill the phrase snapshot with their own key lines, and list any numbers there that are not in `contributions/`. The custom-resume skill uses this snapshot when it can't read their pages. Show them the snapshot and the 4-sentence order, and change anything they want.
 
 For the modern style, build one sample resume from a real job post they like (custom-resume "Modern style") and show it, so they can adjust the guide before the first real run.
 

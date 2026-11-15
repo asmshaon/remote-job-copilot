@@ -29,7 +29,8 @@ content.json for the modern style:
   }
 
 Checks (exits non-zero and writes no PDF when one fails): every bullet and the summary pass the shared
-human-writing lint; no em dash anywhere; the page is exactly one page; the empty band under the last line
+human-writing lint; no em dash anywhere; the name and tagline are short enough beside the contact links
+(they never wrap; a wider header makes Chromium print the whole page smaller, refused below MIN_SCALE); the page is exactly one page; the empty band under the last line
 is at most 24pt (fill it with real content, never bigger fonts); no bullet or paragraph ends with a single
 word alone on its last line. On success it prints the measured bottom gap, the ATS text and the keyword
 coverage.
@@ -139,7 +140,16 @@ def find_chromium():
     return sorted(found, reverse=True)[0] if found else None
 
 
-def to_pdf(doc, out):
+CONTENT_W_IN = {"A4": 8.27 - 1.0, "Letter": 8.5 - 1.0}   # page width minus the 0.5in side margins
+# The name and tagline never wrap. When the header is wider than the page, Chromium prints the whole page
+# a little smaller. A normal tagline (about 60 characters) beside the contact links gives about 0.95 on Letter
+# and 0.92 on A4, and resumes so far were tuned at that size. A longer tagline shrinks every line further
+# (73 characters gave 0.88 on Letter), so the build refuses below this scale.
+MIN_SCALE = 0.90
+
+
+def to_pdf(doc, out, page_size=None):
+    """Print doc to out. Returns the print scale Chromium uses (1.0 when the header fits the page)."""
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
@@ -157,10 +167,17 @@ def to_pdf(doc, out):
                     browser = pw.chromium.launch(channel="chrome")  # the installed Google Chrome
                 except Exception:
                     sys.exit("NOT BUILT: no Chromium found. Run:  python -m playwright install chromium")
-        page = browser.new_page()
+        width = round(CONTENT_W_IN[page_size] * 96) if page_size else None
+        page = browser.new_page(viewport={"width": width, "height": 1100}) if width else browser.new_page()
         page.set_content(doc)
+        scale = 1.0
+        if width:
+            wide = page.evaluate("() => Math.max(document.documentElement.scrollWidth,"
+                                 " document.querySelector('header').scrollWidth)")
+            scale = round(min(1.0, width / wide), 3) if wide else 1.0
         page.pdf(path=str(out), prefer_css_page_size=True, print_background=True)
         browser.close()
+    return scale
 
 
 def measure(pdf, page):
@@ -211,9 +228,12 @@ def build(content_path, out_path):
     out.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
         trial = Path(tmp) / "trial.pdf"
-        to_pdf(doc, trial)
+        scale = to_pdf(doc, trial, page)
         pages, gap, widows = measure(trial, page)
         problems = []
+        if scale < MIN_SCALE:
+            problems.append(f"tagline too long ({len(cv['tagline'])} characters): the header is too wide, so the "
+                            f"whole page prints at {scale:.0%} (min {MIN_SCALE:.0%}). Shorten the tagline, never the fonts")
         if pages != 1:
             problems.append(f"{pages} pages: cut or merge bullets (never shrink fonts or spacing)")
         elif gap > MAX_GAP:
@@ -226,7 +246,7 @@ def build(content_path, out_path):
 
     from pypdf import PdfReader
     text = PdfReader(str(out)).pages[0].extract_text()
-    print(f"built {out} (modern, {page}, 1 page, bottom gap {gap}pt)")
+    print(f"built {out} (modern, {page}, 1 page, bottom gap {gap}pt, print scale {scale:.0%})")
     print("---- ATS text ----")
     print(text)
     kws = cv.get("keywords", [])
