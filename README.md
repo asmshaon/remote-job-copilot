@@ -39,9 +39,12 @@ You also need your own LinkedIn and Gmail accounts, logged in inside that Chrome
 ### 2.1 Get the repo
 
 ```bash
-git clone <repo url> job-hunting-automation
-cd job-hunting-automation
+git clone <repo url>
+cd <repo name>        # the folder the clone just made, e.g. job-finder-enginners
 ```
+
+Use the URL of the repo you were given. A public copy of the tool is at
+https://github.com/asmshaon/job-finder-enginners.
 
 ### 2.2 Install the Python packages
 
